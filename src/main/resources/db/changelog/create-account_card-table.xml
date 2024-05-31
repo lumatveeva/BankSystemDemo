@@ -1,0 +1,14 @@
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet id="create-account_card-table" author="Liubov Matveeva">
+        <createTable tableName="account_card" schemaName="public">
+            <column name="account_number" type="uuid"/>
+            <column name="card_number" type="uuid"/>
+        </createTable>
+
+
+    </changeSet>
+
+</databaseChangeLog>

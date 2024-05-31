@@ -1,0 +1,26 @@
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet id="create-user-table" author="Liubov Matveeva">
+        <createTable tableName="user" schemaName="public">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="firstName" type="varchar(100)"/>
+            <column name="lastName" type="varchar(100)"/>
+            <column name="email" type="varchar(100)">
+                <constraints unique="true"/>
+            </column>
+            <column name="passport" type="varchar(100)">
+                <constraints unique="true"
+                             nullable="false"/>
+            </column>
+            <column name="password" type="varchar"/>
+            <column name="account_number" type="uuid"/>
+            <column name="card_number" type="uuid"/>
+        </createTable>
+
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,75 @@
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet id="create-foreignKey" author="Liubov Matveeva">
+
+        <!--        Внешние ключи таблицы User-->
+        <addForeignKeyConstraint baseTableSchemaName="public"
+                                 baseColumnNames="account_number"
+                                 baseTableName="user"
+                                 constraintName="fk_account_number"
+                                 referencedColumnNames="number"
+                                 referencedTableName="account"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"/>
+        <addForeignKeyConstraint baseTableSchemaName="public"
+                                 baseColumnNames="card_number"
+                                 baseTableName="user"
+                                 constraintName="fk_card_number"
+                                 referencedColumnNames="number"
+                                 referencedTableName="card"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"/>
+<!--        Внешние ключи таблицы Account-->
+        <addForeignKeyConstraint baseTableSchemaName="public"
+                                 baseColumnNames="user_id"
+                                 baseTableName="account"
+                                 constraintName="fk_user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"/>
+
+        <!--        Внешние ключи таблицы Card-->
+        <addForeignKeyConstraint baseTableSchemaName="public"
+                                 baseColumnNames="user_id"
+                                 baseTableName="card"
+                                 constraintName="fk_user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"/>
+
+        <!--        Внешние ключи таблицы Account_card-->
+        <addForeignKeyConstraint baseTableSchemaName="public"
+                                 baseColumnNames="account_number"
+                                 baseTableName="account_card"
+                                 constraintName="fk_account_number"
+                                 referencedColumnNames="number"
+                                 referencedTableName="account"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"/>
+        <addForeignKeyConstraint baseTableSchemaName="public"
+                                 baseColumnNames="card_number"
+                                 baseTableName="account_card"
+                                 constraintName="fk_card_number"
+                                 referencedColumnNames="number"
+                                 referencedTableName="card"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"/>
+    </changeSet>
+
+</databaseChangeLog>
