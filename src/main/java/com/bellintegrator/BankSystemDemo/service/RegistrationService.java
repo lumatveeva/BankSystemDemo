@@ -1,23 +1,26 @@
 package com.bellintegrator.BankSystemDemo.service;
 
-import com.bellintegrator.BankSystemDemo.model.User;
-import com.bellintegrator.BankSystemDemo.repository.UserRepository;
+import com.bellintegrator.BankSystemDemo.model.Customer;
+import com.bellintegrator.BankSystemDemo.repository.CustomerRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 @Service
 @AllArgsConstructor
+@Log4j2
 public class RegistrationService {
-    private final UserRepository userRepository;
+
+    private final CustomerRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
 
-
     @Transactional
-    public void register(User user){
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(User.Role.USER);
-        userRepository.save(user);
+    public void register(Customer customer){
+        customer.setPassword(passwordEncoder.encode(customer.getPassword()));
+        customer.setRole(Customer.Role.ROLE_USER);
+        userRepository.save(customer);
+        log.info("Пользователь  {} сохранен в БД", customer.getEmail());
     }
 }

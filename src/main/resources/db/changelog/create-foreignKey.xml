@@ -4,22 +4,22 @@
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
     <changeSet id="create-foreignKey" author="Liubov Matveeva">
 
-        <!--        Внешние ключи таблицы User-->
+        <!--        Внешние ключи таблицы Сustomer-->
         <addForeignKeyConstraint baseTableSchemaName="public"
-                                 baseColumnNames="account_number"
-                                 baseTableName="user"
-                                 constraintName="fk_account_number"
-                                 referencedColumnNames="number"
+                                 baseColumnNames="account_id"
+                                 baseTableName="customer"
+                                 constraintName="fk_account_id"
+                                 referencedColumnNames="id"
                                  referencedTableName="account"
                                  deferrable="false"
                                  initiallyDeferred="false"
                                  onDelete="CASCADE"
                                  onUpdate="CASCADE"/>
         <addForeignKeyConstraint baseTableSchemaName="public"
-                                 baseColumnNames="card_number"
-                                 baseTableName="user"
-                                 constraintName="fk_card_number"
-                                 referencedColumnNames="number"
+                                 baseColumnNames="card_id"
+                                 baseTableName="customer"
+                                 constraintName="fk_card_id"
+                                 referencedColumnNames="id"
                                  referencedTableName="card"
                                  deferrable="false"
                                  initiallyDeferred="false"
@@ -27,11 +27,11 @@
                                  onUpdate="CASCADE"/>
 <!--        Внешние ключи таблицы Account-->
         <addForeignKeyConstraint baseTableSchemaName="public"
-                                 baseColumnNames="user_id"
+                                 baseColumnNames="customer_id"
                                  baseTableName="account"
-                                 constraintName="fk_user_id"
+                                 constraintName="fk_customer_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="user"
+                                 referencedTableName="customer"
                                  deferrable="false"
                                  initiallyDeferred="false"
                                  onDelete="CASCADE"
@@ -39,11 +39,11 @@
 
         <!--        Внешние ключи таблицы Card-->
         <addForeignKeyConstraint baseTableSchemaName="public"
-                                 baseColumnNames="user_id"
+                                 baseColumnNames="customer_id"
                                  baseTableName="card"
-                                 constraintName="fk_user_id"
+                                 constraintName="fk_customer_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="user"
+                                 referencedTableName="customer"
                                  deferrable="false"
                                  initiallyDeferred="false"
                                  onDelete="CASCADE"
@@ -51,20 +51,20 @@
 
         <!--        Внешние ключи таблицы Account_card-->
         <addForeignKeyConstraint baseTableSchemaName="public"
-                                 baseColumnNames="account_number"
+                                 baseColumnNames="account_id"
                                  baseTableName="account_card"
-                                 constraintName="fk_account_number"
-                                 referencedColumnNames="number"
+                                 constraintName="fk_account_id"
+                                 referencedColumnNames="id"
                                  referencedTableName="account"
                                  deferrable="false"
                                  initiallyDeferred="false"
                                  onDelete="CASCADE"
                                  onUpdate="CASCADE"/>
         <addForeignKeyConstraint baseTableSchemaName="public"
-                                 baseColumnNames="card_number"
+                                 baseColumnNames="card_id"
                                  baseTableName="account_card"
-                                 constraintName="fk_card_number"
-                                 referencedColumnNames="number"
+                                 constraintName="fk_card_id"
+                                 referencedColumnNames="id"
                                  referencedTableName="card"
                                  deferrable="false"
                                  initiallyDeferred="false"

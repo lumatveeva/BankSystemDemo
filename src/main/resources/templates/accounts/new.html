@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>Создать новый счет</p>
+<form th:method = "POST" th:action = "@{/accounts}" th:object ="${account}">
+
+        <div>
+                <label for="accountType">Выберите тип счета:</label>
+                <select th:object="${accountType}" id="accountType">
+                    <option th:each="accountType : ${accountTypes}" th:value="${accountType}"
+                            th:text="${accountType}">
+                    </option>
+                </select>
+        </div>
+
+
+    <input type="submit" value="Сохранить!">
+</form>
+</body>
+</html>

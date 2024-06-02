@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <div th:text = "${account.getNumber()}">Номер счета</a></div>
+    <div th:text = "${account.getAccountType()}">Тип счета</a></div>
+
+    <form th:method = "POST" th:action = "@{/accounts/updateBalance}" th:object ="${account}">
+    <lable for="balance">Введите баланс для пополнения</lable>
+    <input type="number" th:field ="*{balance}" id="balance">
+    <div style="color:red" th:if="${#fields.hasErrors('balance')}" th:errors="*{balance}">Name error</div>
+        <input type="submit" value="Сохранить!"/>
+    </form>
+</body>
+</html>
+

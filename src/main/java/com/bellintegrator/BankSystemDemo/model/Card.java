@@ -1,11 +1,11 @@
 package com.bellintegrator.BankSystemDemo.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.math.BigInteger;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -14,22 +14,30 @@ import java.util.UUID;
 public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID number;
+    private UUID id;
+
+    private String number;
 
     @Enumerated(EnumType.STRING)
-    private Type type;
+    @Column(name = "card_type")
+    private CardType cardType;
+
     private BigInteger balance;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "payment_system")
     private PaymentSystem paymentSystem;
 
     @Enumerated(EnumType.STRING)
     private Status status;
 
     @ManyToOne
-    @JoinColumn(name ="user_id",
-    referencedColumnName = "id")
-    private User user;
+    @JoinColumn(name ="customer_id",
+            referencedColumnName = "id")
+    private Customer customer;
+
+    @ManyToMany
+    private List<Account> accountList;
 
     public enum Status{
         ACTIVE, LOCKED, CLOSE

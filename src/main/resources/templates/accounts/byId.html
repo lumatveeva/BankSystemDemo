@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee</title>
+</head>
+<body>
+<p>Сотрудник: </p>
+<table>
+    <tr>
+        <td><p>Номер счета</p></td>
+        <td><p th:text ="${account.getNumber()}">text</p></td>
+    </tr>
+    <tr>
+        <td><p>Тип счета</p></td>
+        <td><p th:text ="${account.getAccountType()}">text</p></td>
+    </tr>
+    <tr>
+        <td><p>Баланс счета</p></td>
+        <td><p th:text ="${account.getBalance()}">text</p></td>
+    </tr>
+    <tr>
+        <td><p>Владелец счета:</p></td>
+        <td><p th:text ="${account.getCustomer()}">text</p></td>
+        </td>
+    </tr>
+    <tr>
+        <td><p>Прикрепленные карты:</p></td>
+        <td>
+            <div th:each="card : ${account.getCardsList()}">
+                <a th:href="@{http://localhost:8080/cards/{id} (id = ${card.getId()})}"
+                   th:text ="${card.getNumber()}">text</a>
+            </div>
+        </td>
+    </tr>
+</table>
+<a href="accounts/putMoney"> Пополнить данный счет</a>
+</body>
+</html>

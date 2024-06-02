@@ -5,9 +5,10 @@
     <title>Login</title>
 </head>
 <body>
-<form name ="f" method="post" action="/process_login">
+<!--<form name ="f" method="GET" action="/redirect">-->
+<form  method="POST" action="/process_login">
 
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+<!--    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
     <label for="email">Введите email пользователя:</label>
     <input type="text" name="email" id="email"/>
     <br/>

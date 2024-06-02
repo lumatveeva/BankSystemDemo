@@ -1,6 +1,6 @@
 package com.bellintegrator.BankSystemDemo.security;
 
-import com.bellintegrator.BankSystemDemo.model.User;
+import com.bellintegrator.BankSystemDemo.model.Customer;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,23 +11,24 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
-public class MyUserDetail implements UserDetails {
-    private User user;
+public class MyCustomerDetail implements UserDetails {
+
+    private Customer customer;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.stream(String.valueOf(user.getRole()).split(""))
+        return Arrays.stream(String.valueOf(customer.getRole()).split(", "))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return customer.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return customer.getEmail();
     }
 
     @Override
@@ -48,5 +49,9 @@ public class MyUserDetail implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public Customer getCustomer() {
+        return customer;
     }
 }

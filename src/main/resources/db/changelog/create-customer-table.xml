@@ -2,13 +2,13 @@
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
-    <changeSet id="create-user-table" author="Liubov Matveeva">
-        <createTable tableName="user" schemaName="public">
+    <changeSet id="create-customer-table" author="Liubov Matveeva">
+        <createTable tableName="customer" schemaName="public">
             <column name="id" type="uuid">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="firstName" type="varchar(100)"/>
-            <column name="lastName" type="varchar(100)"/>
+            <column name="first_name" type="varchar(100)"/>
+            <column name="last_name" type="varchar(100)"/>
             <column name="email" type="varchar(100)">
                 <constraints unique="true"/>
             </column>
@@ -17,8 +17,9 @@
                              nullable="false"/>
             </column>
             <column name="password" type="varchar"/>
-            <column name="account_number" type="uuid"/>
-            <column name="card_number" type="uuid"/>
+            <column name="role" type="varchar"/>
+            <column name="account_id" type="uuid"/>
+            <column name="card_id" type="uuid"/>
         </createTable>
 
     </changeSet>

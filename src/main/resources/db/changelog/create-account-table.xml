@@ -4,14 +4,15 @@
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
     <changeSet id="create-account-table" author="Liubov Matveeva">
         <createTable tableName="account" schemaName="public">
-            <column name="number" type="uuid">
+            <column name="id" type="uuid">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="type" type="varchar(100)">
+            <column name="number" type="varchar" />
+            <column name="account_type" type="varchar(100)">
                 <constraints nullable="false"/>
             </column>
             <column name="balance" type="BIGINT" defaultValue="0"/>
-            <column name="user_id" type="uuid"/>
+            <column name="customer_id" type="uuid"/>
 
         </createTable>
     </changeSet>

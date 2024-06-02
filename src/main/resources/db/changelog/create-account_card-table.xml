@@ -4,8 +4,8 @@
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
     <changeSet id="create-account_card-table" author="Liubov Matveeva">
         <createTable tableName="account_card" schemaName="public">
-            <column name="account_number" type="uuid"/>
-            <column name="card_number" type="uuid"/>
+            <column name="account_id" type="uuid"/>
+            <column name="card_id" type="uuid"/>
         </createTable>
 
 

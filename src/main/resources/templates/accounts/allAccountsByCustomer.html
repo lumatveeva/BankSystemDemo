@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Счета</title>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>Номер счета</th>
+        <th>Тип счета</th>
+        <th>Баланс счета </th>
+    </tr>
+    </thead>
+    <tbody>
+    <div th:each ="account : ${accounts}">
+        <tr>
+            <td th:text = "${account.getNumber()}">Номер счета</a></td>
+            <td th:text = "${account.getAccountType()}">Тип счета</a></td>
+            <td th:text = "${account.getBalance()}">Баланс счета</a></td>
+
+        </tr>
+    </div>
+    </tbody>
+</table>
+<br>
+
+<a href="accounts/new"> Создать новый счет</a>
+</body>
+</html>

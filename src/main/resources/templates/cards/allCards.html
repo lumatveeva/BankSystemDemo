@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Карты</title>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>Номер карты</th>
+        <th>Владелец карты</th>
+        <th>Тип карты</th>
+        <th>Статус карты</th>
+        <th>Баланс карты </th>
+        <th>Счета карты </th>
+    </tr>
+    </thead>
+    <tbody>
+    <div th:each ="card : ${cards}">
+        <tr>
+            <td th:text = "${card.getNumber()}">Номер карты</a></td>
+            <td th:text = "${card.getCustomer()}">Владелец карты</a></td>
+            <td th:text = "${card.getCardType()}">Тип карты</a></td>
+            <td th:text = "${card.getStatus()}">Статус карты</a></td>
+            <td th:text = "${card.getBalance()}">Баланс карты</a></td>
+
+            <td>
+                <div th:each ="account : ${card.getAccountList()}"
+                     th:href ="@{accounts/{id}(id=${account.getId()})}"
+                     th:text = "${account.getNumber()}">Счета карты</a>
+                </div>
+            </td>
+
+        </tr>
+    </div>
+    </tbody>
+</table>
+<br>
+
+</body>
+</html>

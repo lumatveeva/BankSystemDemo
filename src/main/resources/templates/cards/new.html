@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>Создать новую карту</p>
+<form th:method = "POST" th:action = "@{/cards/addCard}" th:object ="${card}">
+
+    <div>
+        <label for="cardType">Выберите тип карты:</label>
+        <select th:object="${cardType}" id="cardType">
+            <option th:each="cardType : ${cardTypes}" th:value="${cardType}"
+                    th:text="${cardType}">
+            </option>
+        </select>
+    </div>
+    <div>
+        <label for="paymentSystem">Выберите тип платежной системы:</label>
+        <select th:object="${paymentSystem}" id="paymentSystem">
+            <option th:each="paymentSystem : ${paymentsSystem}" th:value="${paymentSystem}"
+                    th:text="${paymentSystem}">
+            </option>
+        </select>
+    </div>
+
+
+    <input type="submit" value="Сохранить!">
+</form>
+</body>
+</html>
