@@ -7,7 +7,7 @@
 <body>
 <p>Создать новый счет</p>
 <form th:method = "POST" th:action = "@{/accounts}" th:object ="${account}">
-
+    <input type="hidden" name="userId" th:value="${userId}"/>
         <div>
                 <label for="accountType">Выберите тип счета:</label>
                 <select th:object="${accountType}" id="accountType">

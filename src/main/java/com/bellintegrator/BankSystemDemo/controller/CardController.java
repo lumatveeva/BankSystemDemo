@@ -37,21 +37,24 @@ public class CardController {
         model.addAttribute("card", cardService.findById(id));
         return "cards/byId";
     }
-    @GetMapping("/new/{id}")
-    public String createCard(@PathVariable("id") UUID id, Model model){
+    @GetMapping("/new")
+    public String createCard(@RequestParam("userId") UUID userId, Model model){
         model.addAttribute("card", new Card());
+        model.addAttribute("userId", userId);
         model.addAttribute("cardTypes", CardType.values());
         model.addAttribute("paymentsSystem", Card.PaymentSystem.values());
         return "cards/new";
     }
     @PostMapping("/addCard")
     public String addACard(@ModelAttribute("card") @Valid Card card,
-                            @ModelAttribute("id") UUID id,
-                             BindingResult bindingResult){
+                           @RequestParam("userId") UUID userId,
+                           BindingResult bindingResult, Model model){
         if (bindingResult.hasErrors()){
+            model.addAttribute("cardTypes", CardType.values());
+            model.addAttribute("paymentsSystem", Card.PaymentSystem.values());
             return "cards/new";
         }
-        cardService.createCard(id, card);
+        cardService.createCard(userId, card);
         return "redirect:/cards";
     }
 

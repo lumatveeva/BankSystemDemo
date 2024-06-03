@@ -41,16 +41,19 @@ public class AccountController {
     }
 
     @GetMapping("/new")
-    public String createAccount(Model model){
+    public String createAccount(@RequestParam("userId") UUID userId,
+                                Model model){
         model.addAttribute("account", new Account());
+        model.addAttribute("userId", userId);
         model.addAttribute("accountTypes", AccountType.values());
         return "accounts/new";
     }
     @PostMapping("")
     public String addAccount(@ModelAttribute("account") @Valid Account account,
-                             @ModelAttribute("id") UUID id,
-                             BindingResult bindingResult){
+                             @RequestParam("id") UUID id,
+                             BindingResult bindingResult, Model model){
         if (bindingResult.hasErrors()){
+            model.addAttribute("accountTypes", AccountType.values());
             return "accounts/new";
         }
         accountService.createAccount(account, id);
