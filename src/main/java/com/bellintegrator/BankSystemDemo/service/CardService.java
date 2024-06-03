@@ -46,6 +46,7 @@ public class CardService {
             default:
                 throw new RuntimeException("Unsupported card type");
         }
+
         List<Card> existingCards = cardRepository.findByCustomerId(card.getCustomer().getId());
         if (accountType == AccountType.CREDIT_CARD && existingCards.stream().anyMatch(c -> c.getCardType() == CardType.CREDIT)) {
             throw new RuntimeException("Credit card account can only have one credit card linked to it");

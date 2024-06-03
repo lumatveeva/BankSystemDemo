@@ -2,9 +2,41 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Пользователь банка</title>
 </head>
 <body>
+<p>Банковская карта </p>
 
+
+<p>Ваше имя:</p>
+<p th:text ="${customer.getFirstName()}">text</p>
+<p>Ваша фамилия:</p>
+<p th:text ="${customer.getLastName()}">text</p>
+<p>Ваш email:</p></td>
+<p th:text ="${customer.getEmail()}">text</p>
+<p>Ваша роль: :</p></td>
+<p th:text ="${customer.getRole()}">text</p>
+<p>Ваш паспорт:</p></td>
+<p th:text ="${customer.getPassport()}">text</p>
+
+
+<!--    <div th:if="${customer.getCards()}">-->
+<p>Прикрепленные карты:</p>
+<div th:each="card : ${customer.getCards()}">
+    <a th:href="@{http://localhost:8080/cards/customer/{id} (id = ${card.getId()})}"
+       th:text ="${card.getNumber()}">text</a>
+            </div>
+    <!--&lt;!&ndash;    </div>&ndash;&gt;-->
+    <!--    <div th:if="${customer.getAccounts()}">-->
+    <!--            <p>Прикрепленные счета:</p>-->
+    <!--                <div th:each="account : ${customer.getAccounts()}">-->
+    <!--                    <a th:href="@{http://localhost:8080/accounts/customer/{id} (id = ${account.getId()})}"-->
+    <!--                       th:text ="${account.getNumber()}">text</a>-->
+    <!--                </div>-->
+    <!--    </div>-->
+
+
+    <a href="http://localhost:8080/cards/new"> Создать карту</a>
+    <a href="http://localhost:8080/accounts/new"> Создать счет</a>
 </body>
 </html>
