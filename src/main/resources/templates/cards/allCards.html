@@ -26,7 +26,7 @@
             <td th:text = "${card.getBalance()}">Баланс карты</a></td>
 
             <td>
-                <div th:each ="account : ${card.getAccountList()}"
+                <div th:each ="account : ${card.getAccounts()}"
                      th:href ="@{accounts/{id}(id=${account.getId()})}"
                      th:text = "${account.getNumber()}">Счета карты</a>
                 </div>

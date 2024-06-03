@@ -48,16 +48,16 @@ public class AccountController {
         model.addAttribute("accountTypes", AccountType.values());
         return "accounts/new";
     }
-    @PostMapping("")
+    @PostMapping("/addCard")
     public String addAccount(@ModelAttribute("account") @Valid Account account,
-                             @RequestParam("id") UUID id,
+                             @RequestParam("userId") UUID userId,
                              BindingResult bindingResult, Model model){
         if (bindingResult.hasErrors()){
             model.addAttribute("accountTypes", AccountType.values());
             return "accounts/new";
         }
-        accountService.createAccount(account, id);
-        return "redirect:/accounts";
+        accountService.createAccount(account, userId);
+        return "redirect:/customer/" + userId;
     }
 
     @GetMapping("/putMoney")

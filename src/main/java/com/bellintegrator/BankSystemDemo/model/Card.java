@@ -37,7 +37,12 @@ public class Card {
     private Customer customer;
 
     @ManyToMany
-    private List<Account> accountList;
+    @JoinTable(
+            name = "account_card",
+            joinColumns = @JoinColumn(name = "card_id"),
+            inverseJoinColumns = @JoinColumn(name = "account_id")
+    )
+    private List<Account> accounts;
 
     public enum Status{
         ACTIVE, LOCKED, CLOSE

@@ -26,7 +26,7 @@ public class Account {
             referencedColumnName = "id")
     private Customer customer;
 
-    @ManyToMany
-    private List<Card> cardsList;
+    @ManyToMany(mappedBy = "accounts")
+    private List<Card> cards;
 
 }

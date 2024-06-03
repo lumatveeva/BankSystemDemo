@@ -3,6 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        p {
+            margin: 5px 0;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
 <p>Создать новую карту</p>
@@ -11,7 +54,7 @@
 
     <div>
         <label for="cardType">Выберите тип карты:</label>
-        <select th:object="${cardType}" id="cardType">
+        <select th:field="*{cardType}" id="cardType">
             <option th:each="cardType : ${cardTypes}" th:value="${cardType}"
                     th:text="${cardType}">
             </option>
@@ -19,7 +62,7 @@
     </div>
     <div>
         <label for="paymentSystem">Выберите тип платежной системы:</label>
-        <select th:object="${paymentSystem}" id="paymentSystem">
+        <select th:field="*{paymentSystem}" id="paymentSystem">
             <option th:each="paymentSystem : ${paymentsSystem}" th:value="${paymentSystem}"
                     th:text="${paymentSystem}">
             </option>

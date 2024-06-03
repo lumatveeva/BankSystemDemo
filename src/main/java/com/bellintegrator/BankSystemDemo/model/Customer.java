@@ -38,10 +38,10 @@ public class Customer {
     @NotNull(message = "Пожалуйста введите пароль")
     private String password;
 
-    @OneToMany(mappedBy = "number")
+    @OneToMany(mappedBy = "customer")
     private List<Account> accounts;
 
-    @OneToMany(mappedBy = "number")
+    @OneToMany(mappedBy = "customer")
     private List<Card> cards;
     
     public enum Role{

@@ -25,13 +25,13 @@
     </tr>
     <tr>
         <td><p>Владелец карты:</p></td>
-        <td><p th:text ="${card.getCustomer()}">text</p></td>
+        <td><p th:text ="${card.getCustomer().getFirstName() + card.getCustomer().getLastName()}">text</p></td>
         </td>
     </tr>
     <tr>
         <td><p>Прикрепленные счета:</p></td>
         <td>
-            <div th:each="account : ${card.getAccountList()}">
+            <div th:each="account : ${card.getAccounts()}">
                 <a th:href="@{http://localhost:8080/accounts/{id} (id = ${account.getId()})}"
                    th:text ="${account.getNumber()}">text</a>
             </div>

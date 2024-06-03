@@ -32,9 +32,9 @@ public class CardController {
         return "cards/allCards";
     }
     @GetMapping("/{id}")
-    public String findById(@PathVariable("id") UUID id,
+    public String findById(@PathVariable("id") String id,
                            Model model){
-        model.addAttribute("card", cardService.findById(id));
+        model.addAttribute("card", cardService.findById(UUID.fromString(id)));
         return "cards/byId";
     }
     @GetMapping("/new")
@@ -55,7 +55,7 @@ public class CardController {
             return "cards/new";
         }
         cardService.createCard(userId, card);
-        return "redirect:/cards";
+        return "redirect:/customer/" + userId;
     }
 
     @GetMapping("/putMoney")

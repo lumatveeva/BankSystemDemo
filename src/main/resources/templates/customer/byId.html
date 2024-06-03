@@ -3,39 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <title>Пользователь банка</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        p {
+            margin: 5px 0;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-<p>Банковская карта </p>
+<h2>Личный кабинет</h2>
 
 
-   <p>Ваше имя:</p>
-     <p th:text ="${customer.getFirstName()}">text</p>
-    <p>Ваша фамилия:</p>
-     <p th:text ="${customer.getLastName()}">text</p>
-    <p>Ваш email:</p></td>
+   <p>ФИО:</p>
+     <p th:text ="${customer.getFirstName() + ' ' + customer.getLastName()}">text</p>
+    <p>Email:</p></td>
       <p th:text ="${customer.getEmail()}">text</p>
-    <p>Ваша роль: :</p></td>
-        <p th:text ="${customer.getRole()}">text</p>
-   <p>Ваш паспорт:</p></td>
+   <p>Паспорт:</p></td>
         <p th:text ="${customer.getPassport()}">text</p>
 
 
-<!--    <div th:if="${customer.getCards()}">-->
-        <p>Прикрепленные карты:</p>
-        <div th:each="card : ${customer.getCards()}">
-            <a th:href="@{http://localhost:8080/cards/customer/{id} (id = ${card.getId()})}"
-               th:text ="${card.getNumber()}">text</a>
-        </div>
-<!--&lt;!&ndash;    </div>&ndash;&gt;-->
-<!--    <div th:if="${customer.getAccounts()}">-->
-<!--            <p>Прикрепленные счета:</p>-->
-<!--                <div th:each="account : ${customer.getAccounts()}">-->
-<!--                    <a th:href="@{http://localhost:8080/accounts/customer/{id} (id = ${account.getId()})}"-->
-<!--                       th:text ="${account.getNumber()}">text</a>-->
-<!--                </div>-->
-<!--    </div>-->
+<div th:if="${customer.cards}">
+    <p>Прикрепленные карты:</p>
+    <ul>
+        <li th:each="card : ${customer.cards}">
+            <span th:text="${card.number}"></span>
+            <span th:text="${card.cardType}"></span>
+            <span th:text="${card.paymentSystem}"></span>
+            <span th:text="${card.status}"></span>
+        </li>
+    </ul>
+</div>
 
+<div th:if="${customer.accounts}">
+    <p>Прикрепленные счета:</p>
+    <ul>
+        <li th:each="account : ${customer.accounts}">
+            <span th:text="${account.number}"></span>
+            <span th:text="${account.accountType}"></span>
+        </li>
+    </ul>
+</div>
 
+<div>
 <form th:action="@{/cards/new}" method="GET">
     <input type="hidden" name="userId" th:value="${customer.getId()}"/>
     <button type="submit">Создать карту</button>
@@ -44,5 +90,7 @@
     <input type="hidden" name="userId" th:value="${customer.getId()}"/>
     <button type="submit">Создать счет</button>
 </form>
+</div>
+
 </body>
 </html>

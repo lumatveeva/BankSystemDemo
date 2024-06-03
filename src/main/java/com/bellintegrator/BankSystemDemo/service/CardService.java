@@ -1,13 +1,10 @@
 package com.bellintegrator.BankSystemDemo.service;
 
-import com.bellintegrator.BankSystemDemo.exceptions.AccountNotFoundException;
 import com.bellintegrator.BankSystemDemo.exceptions.CardNotFoundException;
-import com.bellintegrator.BankSystemDemo.exceptions.CustomerNotFoundException;
 import com.bellintegrator.BankSystemDemo.exceptions.InvalidBalanceException;
 import com.bellintegrator.BankSystemDemo.model.*;
-import com.bellintegrator.BankSystemDemo.repository.AccountRepository;
 import com.bellintegrator.BankSystemDemo.repository.CardRepository;
-import com.bellintegrator.BankSystemDemo.repository.CustomerRepository;
+import com.bellintegrator.BankSystemDemo.util.CardNumberGenerator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +15,9 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 public class CardService {
-    private final AccountRepository accountRepository;
+    private final AccountService accountService;
     public final CardRepository cardRepository;
-    private final CustomerRepository customerRepository;
+    private final CustomerService customerService;
 
     public List<Card> findAll(){
         return cardRepository.findAll();
@@ -47,20 +44,23 @@ public class CardService {
                 throw new RuntimeException("Unsupported card type");
         }
 
+        Account account = new Account();
+        account.setAccountType(accountType);
+        account.setCustomer(card.getCustomer());
+        accountService.createAccount(account, id);
+
+        Customer customer = customerService.findById(id);
+        card.setCustomer(customer);
+        card.setAccounts(List.of(account));
+        card.setNumber(CardNumberGenerator.generateCardNumber());
+        card.setStatus(Card.Status.ACTIVE);
+        card.setBalance(BigInteger.ZERO);
+
         List<Card> existingCards = cardRepository.findByCustomerId(card.getCustomer().getId());
         if (accountType == AccountType.CREDIT_CARD && existingCards.stream().anyMatch(c -> c.getCardType() == CardType.CREDIT)) {
             throw new RuntimeException("Credit card account can only have one credit card linked to it");
         }
-        Customer customer = customerRepository.findById(id).orElseThrow(()-> new CustomerNotFoundException("Customer not found"));
-
-        Account account = new Account();
-            account.setAccountType(accountType);
-            account.setCustomer(card.getCustomer());
-        Account savedAccount = accountRepository.save(account);
-            card.setCustomer(customer);
-            card.setAccountList(List.of(savedAccount));
-
-            cardRepository.save(card);
+        cardRepository.save(card);
     }
 
     public void updateBalance(BigInteger balance, UUID number) {

@@ -18,8 +18,6 @@
             </column>
             <column name="password" type="varchar"/>
             <column name="role" type="varchar"/>
-            <column name="account_id" type="uuid"/>
-            <column name="card_id" type="uuid"/>
         </createTable>
 
     </changeSet>

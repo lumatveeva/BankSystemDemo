@@ -3,14 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        p {
+            margin: 5px 0;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        input {
+                     background-color: #4CAF50; /* Green */
+                     border: none;
+                     color: white;
+                     padding: 10px 20px;
+                     text-align: center;
+                     text-decoration: none;
+                     display: inline-block;
+                     font-size: 14px;
+                     margin: 4px 2px;
+                     cursor: pointer;
+                     border-radius: 4px;
+                 }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+    </style>
 </head>
 <body>
 <p>Создать новый счет</p>
-<form th:method = "POST" th:action = "@{/accounts}" th:object ="${account}">
+<form th:method = "POST" th:action = "@{/accounts/addCard}" th:object ="${account}">
     <input type="hidden" name="userId" th:value="${userId}"/>
         <div>
                 <label for="accountType">Выберите тип счета:</label>
-                <select th:object="${accountType}" id="accountType">
+                <select th:field="*{accountType}" id="accountType">
                     <option th:each="accountType : ${accountTypes}" th:value="${accountType}"
                             th:text="${accountType}">
                     </option>

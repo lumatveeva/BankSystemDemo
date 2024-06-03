@@ -6,6 +6,7 @@ import com.bellintegrator.BankSystemDemo.exceptions.InvalidBalanceException;
 import com.bellintegrator.BankSystemDemo.model.*;
 import com.bellintegrator.BankSystemDemo.repository.AccountRepository;
 import com.bellintegrator.BankSystemDemo.repository.CustomerRepository;
+import com.bellintegrator.BankSystemDemo.util.AccountNumberGenerator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 public class AccountService {
-    private final CustomerRepository customerRepository;
+    private final CustomerService customerService;
     private final AccountRepository accountRepository;
 
 
@@ -50,10 +51,12 @@ public class AccountService {
         }
 
 
-        Customer customer = customerRepository.findById(id).orElseThrow(()-> new CustomerNotFoundException("Customer not found"));
+        Customer customer = customerService.findById(id);
 
         account.setAccountType(accountType);
         account.setCustomer(customer);
+        account.setNumber(AccountNumberGenerator.generateAccountNumber());
+        account.setBalance(BigInteger.ZERO);
         accountRepository.save(account);
     }
 
