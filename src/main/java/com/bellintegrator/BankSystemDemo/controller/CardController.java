@@ -37,8 +37,8 @@ public class CardController {
         model.addAttribute("card", cardService.findById(id));
         return "cards/byId";
     }
-    @GetMapping("/new")
-    public String createCard(Model model){
+    @GetMapping("/new/{id}")
+    public String createCard(@PathVariable("id") UUID id, Model model){
         model.addAttribute("card", new Card());
         model.addAttribute("cardTypes", CardType.values());
         model.addAttribute("paymentsSystem", Card.PaymentSystem.values());

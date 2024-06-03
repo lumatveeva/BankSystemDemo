@@ -21,10 +21,10 @@
 
 
 <!--    <div th:if="${customer.getCards()}">-->
-<!--        <p>Прикрепленные карты:</p>-->
-<!--        <div th:each="card : ${customer.getCards()}">-->
-<!--            <a th:href="@{http://localhost:8080/cards/customer/{id} (id = ${card.getId()})}"-->
-<!--               th:text ="${card.getNumber()}">text</a>-->
+        <p>Прикрепленные карты:</p>
+        <div th:each="card : ${customer.getCards()}">
+            <a th:href="@{http://localhost:8080/cards/customer/{id} (id = ${card.getId()})}"
+               th:text ="${card.getNumber()}">text</a>
 <!--        </div>-->
 <!--&lt;!&ndash;    </div>&ndash;&gt;-->
 <!--    <div th:if="${customer.getAccounts()}">-->

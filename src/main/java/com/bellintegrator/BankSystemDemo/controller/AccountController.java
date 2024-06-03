@@ -48,11 +48,12 @@ public class AccountController {
     }
     @PostMapping("")
     public String addAccount(@ModelAttribute("account") @Valid Account account,
+                             @ModelAttribute("id") UUID id,
                              BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             return "accounts/new";
         }
-        accountService.createAccount(account);
+        accountService.createAccount(account, id);
         return "redirect:/accounts";
     }
 

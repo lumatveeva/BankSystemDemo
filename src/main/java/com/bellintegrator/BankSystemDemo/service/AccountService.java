@@ -1,8 +1,9 @@
 package com.bellintegrator.BankSystemDemo.service;
 
 import com.bellintegrator.BankSystemDemo.exceptions.AccountNotFoundException;
+import com.bellintegrator.BankSystemDemo.exceptions.CustomerNotFoundException;
 import com.bellintegrator.BankSystemDemo.exceptions.InvalidBalanceException;
-import com.bellintegrator.BankSystemDemo.model.Account;
+import com.bellintegrator.BankSystemDemo.model.*;
 import com.bellintegrator.BankSystemDemo.repository.AccountRepository;
 import com.bellintegrator.BankSystemDemo.repository.CustomerRepository;
 import lombok.AllArgsConstructor;
@@ -30,7 +31,29 @@ public class AccountService {
         return accountRepository.findByCustomerId(id);
     }
 
-    public void createAccount(Account account){
+    public void createAccount(Account account, UUID id){
+
+        AccountType accountType;
+
+        switch (account.getAccountType()) {
+            case CREDIT_CARD:
+                accountType = AccountType.CREDIT_CARD;
+                break;
+            case DEBIT_CARD:
+                accountType = AccountType.DEBIT_CARD;
+                break;
+            case DEPOSIT:
+                accountType = AccountType.DEPOSIT;
+                break;
+            default:
+                throw new RuntimeException("Unsupported card type");
+        }
+
+
+        Customer customer = customerRepository.findById(id).orElseThrow(()-> new CustomerNotFoundException("Customer not found"));
+
+        account.setAccountType(accountType);
+        account.setCustomer(customer);
         accountRepository.save(account);
     }
 
