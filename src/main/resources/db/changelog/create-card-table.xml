@@ -11,12 +11,13 @@
             <column name="card_type" type="varchar(100)">
                 <constraints nullable="false"/>
             </column>
-            <column name="balance" type="BIGINT" defaultValue="0"/>
+            <column name="balance" type="integer" defaultValue="0"/>
             <column name="payment_system" type="varchar(100)">
                 <constraints nullable="false"/>
             </column>
             <column name="status" type="varchar(100)" defaultValue="ACTIVE"/>
             <column name="customer_id" type="uuid"/>
+            <column name="account_id" type="uuid"/>
 
         </createTable>
 

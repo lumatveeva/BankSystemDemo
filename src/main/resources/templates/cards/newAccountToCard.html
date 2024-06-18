@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Пополнение счета</title>
+    <title>Account</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #a8a5a5;
+            background-color: #f2f2f2;
             margin: 0;
             padding: 20px;
         }
@@ -48,19 +48,20 @@
     </style>
 </head>
 <body>
-    <p>Номер счета</p>
-    <div th:text = "${account.getNumber()}">Номер счета</a></div>
-    <p>Тип счета</p>
-    <div th:text = "${account.getAccountType()}">Тип счета</a></div>
+<p>Создать новый счет</p>
+<form th:method = "POST" th:action = "@{/card/addAccount}" th:object ="${account}">
+    <input type="hidden" name="userId" th:value="${userId}"/>
+    <div>
+        <label for="accountType">Выберите тип счета:</label>
+        <select th:field="*{accountType}" id="accountType">
+            <option th:each="accountType : ${accountTypes}" th:value="${accountType}"
+                    th:text="${accountType}">
+            </option>
+        </select>
+    </div>
 
-    <form th:method = "POST" th:action = "@{/accounts/updateBalance}" th:object ="${account}">
-        <input type="hidden" name="accountId" th:value="${account.getId()}"/>
 
-    <lable for="balance">Введите баланс для пополнения</lable>
-    <input type="number" th:field ="*{balance}" id="balance">
-    <div style="color:red" th:if="${#fields.hasErrors('balance')}" th:errors="*{balance}">Name error</div>
-        <button type="submit">Сохранить!</button>
-    </form>
+    <input type="submit" value="Сохранить!">
+</form>
 </body>
 </html>
-

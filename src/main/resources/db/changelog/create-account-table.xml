@@ -8,10 +8,8 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="number" type="varchar" />
-            <column name="account_type" type="varchar(100)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="balance" type="BIGINT" defaultValue="0"/>
+            <column name="account_type" type="varchar(100)"/>
+            <column name="balance" type="integer" defaultValue="0"/>
             <column name="customer_id" type="uuid"/>
 
         </createTable>

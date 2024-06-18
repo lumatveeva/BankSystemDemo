@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование счета</title>
+</head>
+<body>
+
+    <p>Номер счета</p>
+    <div th:text = "${account.getNumber()}">Номер счета</a></div>
+    <p>Тип счета</p>
+    <div th:text = "${account.getAccountType()}">Тип счета</a></div>
+
+    <form th:method = "POST" th:action = "@{/accounts/updateAccount}" th:object ="${cards}">
+        <input type="hidden" name="userId" th:value="${account.getCustomer().getId()}"/>
+
+        <div>
+            <label for="cards">Выберите карту к которой прикрепить счет:</label>
+            <select th:field="${cards}" id="cards">
+                <option th:each="card : ${cards}" th:value="${card.getId()}"
+                        th:text="${card.getNumber()}">
+                </option>
+            </select>
+        </div>
+
+        <input type="submit" value="Сохранить!">
+    </form>
+
+</body>
+</html>

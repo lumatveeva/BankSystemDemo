@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Пользователь банка</title>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -50,47 +51,58 @@
 <body>
 <h2>Личный кабинет</h2>
 
-
-   <p>ФИО:</p>
-     <p th:text ="${customer.getFirstName() + ' ' + customer.getLastName()}">text</p>
-    <p>Email:</p></td>
-      <p th:text ="${customer.getEmail()}">text</p>
-   <p>Паспорт:</p></td>
-        <p th:text ="${customer.getPassport()}">text</p>
-
-
-<div th:if="${customer.cards}">
-    <p>Прикрепленные карты:</p>
-    <ul>
-        <li th:each="card : ${customer.cards}">
-            <span th:text="${card.number}"></span>
-            <span th:text="${card.cardType}"></span>
-            <span th:text="${card.paymentSystem}"></span>
-            <span th:text="${card.status}"></span>
-        </li>
-    </ul>
-</div>
-
-<div th:if="${customer.accounts}">
-    <p>Прикрепленные счета:</p>
-    <ul>
-        <li th:each="account : ${customer.accounts}">
-            <span th:text="${account.number}"></span>
-            <span th:text="${account.accountType}"></span>
-        </li>
-    </ul>
-</div>
-
-<div>
-<form th:action="@{/cards/new}" method="GET">
-    <input type="hidden" name="userId" th:value="${customer.getId()}"/>
-    <button type="submit">Создать карту</button>
-</form>
-<form th:action="@{/accounts/new}" method="GET">
-    <input type="hidden" name="userId" th:value="${customer.getId()}"/>
-    <button type="submit">Создать счет</button>
-</form>
-</div>
+<table>
+    <tr>
+        <td><p>ФИО:</p></td>
+        <td><p th:text ="${customer.getFirstName() + ' ' + customer.getLastName()}">text</p></td>
+    </tr>
+    <tr>
+        <td><p>Email:</p></td>
+        <td><p th:text ="${customer.getEmail()}">text</p></td>
+    </tr>
+    <tr>
+        <td><p>Паспорт:</p></td>
+        <td><p th:text ="${customer.getPassport()}">text</p></td>
+    </tr>
+    <tr>
+        <div th:if="${customer.cards}">
+        <td><p>Прикрепленные карты:</p></td>
+        <td><ul>
+            <li th:each="card : ${customer.cards}">
+                <a th:href="@{http://localhost:8080/cards/{id} (id = ${card.id})}"  th:text="${card.number}">text</a>
+                <span th:text="${card.cardType}"></span>
+                <span th:text="${card.paymentSystem}"></span>
+                <span th:text="${card.status}"></span>
+                <span th:text="${card.balance}"></span>
+            </li>
+            </ul>
+        </td>
+    </div>
+    </tr>
+    <tr>
+        <td><p>Прикрепленные счета:</p></td>
+        <td><ul>
+            <li th:each="account : ${customer.accounts}">
+                <a th:href="@{http://localhost:8080/accounts/{id} (id = ${account.id})}"  th:text="${account.number}">text</a>
+                <span th:text="${account.accountType}"></span>
+                <span th:text="${account.balance}"></span>
+            </li>
+        </ul>
+        </td>
+    </tr>
+</table>
+    <form th:action="@{/cards/new}" method="GET">
+        <input type="hidden" name="userId" th:value="${customer.getId()}"/>
+        <button type="submit">Создать карту</button>
+    </form>
+    <form th:action="@{/accounts/new}" method="GET">
+        <input type="hidden" name="userId" th:value="${customer.getId()}"/>
+        <button type="submit">Создать счет</button>
+    </form>
+<form th:action="@{/customer/update}" method="GET">
+        <input type="hidden" name="userId" th:value="${customer.getId()}"/>
+        <button type="submit">Редактировать данные</button>
+    </form>
 
 </body>
 </html>

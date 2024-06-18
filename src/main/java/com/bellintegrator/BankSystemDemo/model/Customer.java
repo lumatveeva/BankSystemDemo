@@ -28,8 +28,9 @@ public class Customer {
     @NotNull(message = "Пожалуйста введите email")
     private String email;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
+//    @Enumerated(EnumType.STRING)
+//    private Role role;
+    private String role;
 
 
     @Pattern(regexp = "\\d{4} \\d{6}", message = "Номер паспорта должен соответствовать шаблону '1111 111111'")

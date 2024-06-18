@@ -2,10 +2,53 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Employee</title>
+    <title>Account</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        p {
+            margin: 5px 0;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-<p>Сотрудник: </p>
+<h2>Банковский счет: </h2>
 <table>
     <tr>
         <td><p>Номер счета</p></td>
@@ -29,11 +72,18 @@
         <td>
             <div th:each="card : ${account.getCards()}">
                 <a th:href="@{http://localhost:8080/cards/{id} (id = ${card.getId()})}"
-                   th:text ="${card.getNumber()}">text</a>
+                   th:text ="${card.getNumber() + ' ' + card.getCardType()}">text</a>
             </div>
         </td>
     </tr>
 </table>
-<a href="accounts/putMoney"> Пополнить данный счет</a>
+    <form th:action="@{/accounts/putMoney}" method="GET">
+        <input type="hidden" name="accountId" th:value="${account.getId()}"/>
+        <button type="submit">Пополнить данный счет</button>
+    </form>
+    <form th:action="@{/accounts/addCardToAccount}" method="GET">
+        <input type="hidden" name="accountId" th:value="${account.getId()}"/>
+        <button type="submit">Привязать карту к счету</button>
+    </form>
 </body>
 </html>

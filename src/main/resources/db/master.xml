@@ -2,10 +2,10 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
-    <include file="changelog\create-account-table.xml" relativeToChangelogFile="true"/>
     <include file="changelog\create-customer-table.xml" relativeToChangelogFile="true"/>
+    <include file="changelog\create-account-table.xml" relativeToChangelogFile="true"/>
     <include file="changelog\create-card-table.xml" relativeToChangelogFile="true"/>
-    <include file="changelog\create-account_card-table.xml" relativeToChangelogFile="true"/>
+<!--    <include file="changelog\create-account_card-table.xml" relativeToChangelogFile="true"/>-->
     <include file="changelog\create-foreignKey.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.math.BigInteger;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,7 +23,7 @@ public class Card {
     @Column(name = "card_type")
     private CardType cardType;
 
-    private BigInteger balance;
+    private Integer balance;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_system")
@@ -36,13 +37,11 @@ public class Card {
             referencedColumnName = "id")
     private Customer customer;
 
-    @ManyToMany
-    @JoinTable(
-            name = "account_card",
-            joinColumns = @JoinColumn(name = "card_id"),
-            inverseJoinColumns = @JoinColumn(name = "account_id")
-    )
-    private List<Account> accounts;
+    @ManyToOne
+    @JoinColumn(
+            name = "account_id",
+            referencedColumnName = "id")
+    private Account account;
 
     public enum Status{
         ACTIVE, LOCKED, CLOSE

@@ -19,7 +19,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @EnableMethodSecurity
 @AllArgsConstructor
-
 public class SecurityConfig {
     @Autowired
     private final MyCustomerDetailService customerDetailService;
@@ -29,10 +28,9 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/users/**").hasAuthority("ADMIN")
-                        .requestMatchers("/auth/login", "/auth/registration","/error").permitAll()
-                        .requestMatchers("/**").permitAll()
-                        .requestMatchers("/accounts/**", "cards/**").permitAll()
+                        .requestMatchers("/users/**").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers("/auth/login", "/auth/registration","/error", "/redirect").permitAll()
+                        .requestMatchers("/customer/**", "cards/**", "accounts/**").authenticated()
                 )
                 .formLogin(formLogin -> formLogin
                         .loginPage("/auth/login")

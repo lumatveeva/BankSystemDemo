@@ -19,7 +19,8 @@ public class RegistrationService {
     @Transactional
     public void register(Customer customer){
         customer.setPassword(passwordEncoder.encode(customer.getPassword()));
-        customer.setRole(Customer.Role.ROLE_USER);
+//        customer.setRole(Customer.Role.ROLE_USER);
+        customer.setRole("ROLE_USER");
         userRepository.save(customer);
         log.info("Пользователь  {} сохранен в БД", customer.getEmail());
     }

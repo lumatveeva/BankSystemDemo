@@ -2,11 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Account</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            font-size: 16px;
             background-color: #f2f2f2;
             margin: 0;
             padding: 20px;
@@ -37,34 +36,20 @@
             text-align: center;
             text-decoration: none;
             display: inline-block;
-            font-size: 14px;
+            font-size: 16px;
             margin: 4px 2px;
             cursor: pointer;
             border-radius: 4px;
         }
-        input {
-                     background-color: #4CAF50; /* Green */
-                     border: none;
-                     color: white;
-                     padding: 10px 20px;
-                     text-align: center;
-                     text-decoration: none;
-                     display: inline-block;
-                     font-size: 14px;
-                     margin: 4px 2px;
-                     cursor: pointer;
-                     border-radius: 4px;
-                 }
 
         button:hover {
             background-color: #45a049;
         }
-
     </style>
 </head>
 <body>
 <p>Создать новый счет</p>
-<form th:method = "POST" th:action = "@{/accounts/addCard}" th:object ="${account}">
+<form th:method = "POST" th:action = "@{/accounts/addAccount}" th:object ="${account}">
     <input type="hidden" name="userId" th:value="${userId}"/>
         <div>
                 <label for="accountType">Выберите тип счета:</label>

@@ -7,6 +7,7 @@ import com.bellintegrator.BankSystemDemo.repository.CardRepository;
 import com.bellintegrator.BankSystemDemo.util.CardNumberGenerator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
+@Transactional(readOnly = true)
 public class CardService {
     private final AccountService accountService;
     public final CardRepository cardRepository;
@@ -29,20 +31,10 @@ public class CardService {
         return cardRepository.findById(id).orElseThrow(()-> new CardNotFoundException("Card not found"));
     }
 
+    @Transactional
     public void createCard(UUID id, Card card){
 
-        AccountType accountType;
-
-            switch (card.getCardType()) {
-            case CREDIT:
-                accountType = AccountType.CREDIT_CARD;
-                break;
-            case DEBIT:
-                accountType = AccountType.DEBIT_CARD;
-                break;
-            default:
-                throw new RuntimeException("Unsupported card type");
-        }
+        AccountType accountType = selectAccountType(card);
 
         Account account = new Account();
         account.setAccountType(accountType);
@@ -51,24 +43,49 @@ public class CardService {
 
         Customer customer = customerService.findById(id);
         card.setCustomer(customer);
-        card.setAccounts(List.of(account));
+        card.setAccount(account);
         card.setNumber(CardNumberGenerator.generateCardNumber());
         card.setStatus(Card.Status.ACTIVE);
-        card.setBalance(BigInteger.ZERO);
+        card.setBalance(0);
 
-        List<Card> existingCards = cardRepository.findByCustomerId(card.getCustomer().getId());
-        if (accountType == AccountType.CREDIT_CARD && existingCards.stream().anyMatch(c -> c.getCardType() == CardType.CREDIT)) {
-            throw new RuntimeException("Credit card account can only have one credit card linked to it");
-        }
         cardRepository.save(card);
     }
 
-    public void updateBalance(BigInteger balance, UUID number) {
-        if (balance.compareTo(BigInteger.ZERO) < 0) {
-            throw new InvalidBalanceException("Balance cannot be negative");
-        }
-        Card card = cardRepository.findById(number).orElseThrow(() -> new CardNotFoundException("Account not found"));
-        card.setBalance(balance);
+    @Transactional
+    public void updateBalance(Integer balance, UUID cardId) {
+
+        Card card = cardRepository.findById(cardId).orElseThrow(() -> new CardNotFoundException("Account not found"));
+        card.setBalance(balance + card.getBalance());
+        cardRepository.save(card);
+    }
+
+
+    private static AccountType selectAccountType(Card card) {
+        AccountType accountType = switch (card.getCardType()) {
+            case CREDIT -> AccountType.CREDIT;
+            case DEBIT -> AccountType.DEBIT;
+        };
+
+        return accountType;
+    }
+
+    @Transactional
+    public void lockCard(UUID cardId){
+        Card card = cardRepository.findById(cardId).orElseThrow(() -> new CardNotFoundException("Card not found"));
+        card.setStatus(Card.Status.LOCKED);
+        cardRepository.save(card);
+    }
+
+    @Transactional
+    public void save(UUID cardId){
+        Card card = cardRepository.findById(cardId).orElseThrow(()-> new CardNotFoundException("Card not found"));
+        cardRepository.save(card);
+    }
+
+    @Transactional
+    public void closeCard(UUID cardId) {
+        Card card = cardRepository.findById(cardId).orElseThrow(() -> new CardNotFoundException("Card not found"));
+        card.setStatus(Card.Status.CLOSE);
         cardRepository.save(card);
     }
 }
