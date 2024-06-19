@@ -1,20 +1,16 @@
 package com.bellintegrator.BankSystemDemo.controller;
 
-import com.bellintegrator.BankSystemDemo.model.Account;
 import com.bellintegrator.BankSystemDemo.model.Card;
 import com.bellintegrator.BankSystemDemo.model.CardType;
 import com.bellintegrator.BankSystemDemo.service.CardService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.boot.Banner;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigInteger;
-import java.util.List;
 import java.util.UUID;
 
 @Controller

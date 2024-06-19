@@ -3,20 +3,16 @@ package com.bellintegrator.BankSystemDemo.controller;
 
 import com.bellintegrator.BankSystemDemo.model.Account;
 import com.bellintegrator.BankSystemDemo.model.AccountType;
-import com.bellintegrator.BankSystemDemo.model.Card;
 import com.bellintegrator.BankSystemDemo.model.Customer;
 import com.bellintegrator.BankSystemDemo.service.AccountService;
 import com.bellintegrator.BankSystemDemo.service.CardService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.boot.Banner;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import java.math.BigInteger;
 import java.util.UUID;
 
 @Controller
@@ -109,11 +105,16 @@ public class AccountController {
     @PostMapping("/addCardToAccount")
     public String addCardToAccount(@RequestParam("accountId") UUID accountId,
                                    @RequestParam("cardId") UUID cardId,
-                                   BindingResult bindingResult){
-        accountService.addCardToAccount(accountId, cardId);
+                                   Model model){
         Customer ownerAccount = accountService.findById(accountId).getCustomer();
-
-        return "redirect:/customer/" + ownerAccount.getId();
+        try{
+            accountService.addCardToAccount(accountId, cardId);
+            return "redirect:/customer/" + ownerAccount.getId();
+        } catch (Exception e){
+            model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("customer", ownerAccount);
+            return "error";
+        }
 
     }
 }

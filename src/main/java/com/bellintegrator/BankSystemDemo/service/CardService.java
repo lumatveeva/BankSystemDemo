@@ -1,15 +1,12 @@
 package com.bellintegrator.BankSystemDemo.service;
 
 import com.bellintegrator.BankSystemDemo.exceptions.CardNotFoundException;
-import com.bellintegrator.BankSystemDemo.exceptions.InvalidBalanceException;
 import com.bellintegrator.BankSystemDemo.model.*;
 import com.bellintegrator.BankSystemDemo.repository.CardRepository;
 import com.bellintegrator.BankSystemDemo.util.CardNumberGenerator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigInteger;
 import java.util.List;
 import java.util.UUID;
 
@@ -56,6 +53,8 @@ public class CardService {
 
         Card card = cardRepository.findById(cardId).orElseThrow(() -> new CardNotFoundException("Account not found"));
         card.setBalance(balance + card.getBalance());
+        Account account = card.getAccount();
+        accountService.updateBalance(balance, account.getId());
         cardRepository.save(card);
     }
 

@@ -2,20 +2,18 @@ package com.bellintegrator.BankSystemDemo.service;
 
 import com.bellintegrator.BankSystemDemo.exceptions.AccountNotFoundException;
 import com.bellintegrator.BankSystemDemo.exceptions.CardNotFoundException;
-import com.bellintegrator.BankSystemDemo.exceptions.CustomerNotFoundException;
-import com.bellintegrator.BankSystemDemo.exceptions.InvalidBalanceException;
-import com.bellintegrator.BankSystemDemo.model.*;
+import com.bellintegrator.BankSystemDemo.model.Account;
+import com.bellintegrator.BankSystemDemo.model.AccountType;
+import com.bellintegrator.BankSystemDemo.model.Card;
+import com.bellintegrator.BankSystemDemo.model.Customer;
 import com.bellintegrator.BankSystemDemo.repository.AccountRepository;
 import com.bellintegrator.BankSystemDemo.repository.CardRepository;
-import com.bellintegrator.BankSystemDemo.repository.CustomerRepository;
 import com.bellintegrator.BankSystemDemo.util.AccountNumberGenerator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigInteger;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -66,11 +64,22 @@ public class AccountService {
         Account account = accountRepository.findById(accountId).orElseThrow(() -> new AccountNotFoundException("Account not found"));
         Card card = cardRepository.findById(cardId).orElseThrow(()->new CardNotFoundException("Card not found"));
 
-        account.addCard(card);
+        addCard(accountId, card);
         card.setAccount(account);
 
         accountRepository.save(account);
         cardRepository.save(card);
 
+    }
+
+    private void addCard(UUID accountId, Card card) {
+        Account account = accountRepository.findById(accountId).orElseThrow(() -> new AccountNotFoundException("Account not found"));
+        if (account.getAccountType() == AccountType.CREDIT && !account.getCards().isEmpty()) {
+            throw new IllegalArgumentException("К кредитному счету может быть прикреплена только одна карта");
+        }
+        if(account.getAccountType() == AccountType.DEPOSIT){
+            throw new IllegalArgumentException("К депозитному счету нельзя прикрепить карту");
+        }
+        account.getCards().add(card);
     }
 }

@@ -53,30 +53,13 @@
 
     <tr>
         <td><p>Номер счета</p></td>
-        <td><div th:text = "${account.getNumber()}">Номер счета</a></div></td>
+        <td><div th:text = "${account.getNumber()}">Номер счета</div></td>
     </tr>
     <tr>
         <td><p>Тип счета</p></td>
-        <td><div th:text = "${account.getAccountType()}">Тип счета</a></div> </td>
+        <td><div th:text = "${account.getAccountType()}">Тип счета</div> </td>
     </tr>
 
-
-
-
-<!--    <form th:method = "POST" th:action = "@{/accounts/addCardToAccount}" th:object ="${cards}">-->
-<!--        <input type="hidden" name="userId" th:value="${account.getCustomer().getId()}"/>-->
-
-<!--        <div>-->
-<!--            <label for="cards">Выберите карту к которой прикрепить счет:</label>-->
-<!--            <select th:field="${cards}" id="cards">-->
-<!--                <option th:each="card : ${cardsList}" th:value="${card.getId()}"-->
-<!--                        th:text="${card.getNumber()}">-->
-<!--                </option>-->
-<!--            </select>-->
-<!--        </div>-->
-
-<!--        <input type="submit" value="Сохранить!">-->
-<!--    </form>-->
     <tr>
         <form th:method="POST" th:action="@{/accounts/addCardToAccount}" th:object="${account}">
             <input type="hidden" name="accountId" th:value="${account.getId()}"/>
@@ -87,10 +70,13 @@
                     <option th:each="card : ${cardsList}" th:value="${card.getId()}" th:text="${card.getNumber() + ' ' + card.getCardType()}"></option>
                 </select>
             </td>
-            <td><input type="submit" value="Сохранить!"></td>
+            <input type="submit" value="Сохранить!">
         </form>
     </tr>
+<tr th:if="${errorMessage}">
+    <td colspan="3" style="color: red" th:text="${errorMessage}"></td>
 
+</tr>
 </table>
 </body>
 </html>
