@@ -1,6 +1,10 @@
 package com.bellintegrator.BankSystemDemo.service;
 
+import com.bellintegrator.BankSystemDemo.dto.AccountForm;
+import com.bellintegrator.BankSystemDemo.dto.CustomerForm;
 import com.bellintegrator.BankSystemDemo.exceptions.CardNotFoundException;
+import com.bellintegrator.BankSystemDemo.mappers.AccountMapper;
+import com.bellintegrator.BankSystemDemo.mappers.CustomerMapper;
 import com.bellintegrator.BankSystemDemo.model.*;
 import com.bellintegrator.BankSystemDemo.repository.CardRepository;
 import com.bellintegrator.BankSystemDemo.util.CardNumberGenerator;
@@ -17,6 +21,8 @@ public class CardService {
     private final AccountService accountService;
     public final CardRepository cardRepository;
     private final CustomerService customerService;
+    private final AccountMapper accountMapper;
+    private final CustomerMapper customerMapper;
 
     public List<Card> findAll(){
         return cardRepository.findAll();
@@ -36,9 +42,12 @@ public class CardService {
         Account account = new Account();
         account.setAccountType(accountType);
         account.setCustomer(card.getCustomer());
-        accountService.createAccount(account, id);
+        AccountForm accountForm = accountMapper.toAccountForm(account);
+        accountService.createAccount(accountForm, id);
 
-        Customer customer = customerService.findById(id);
+        CustomerForm customerForm = customerService.findCustomerFormByCustomerId(id);
+        Customer customer = customerMapper.toCustomer(customerForm);
+
         card.setCustomer(customer);
         card.setAccount(account);
         card.setNumber(CardNumberGenerator.generateCardNumber());

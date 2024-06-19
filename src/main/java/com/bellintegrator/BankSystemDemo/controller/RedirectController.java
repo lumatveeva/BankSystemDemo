@@ -16,10 +16,10 @@ public class RedirectController {
     public String redirectAfterLogin(RedirectAttributes redirectAttributes) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         MyCustomerDetail userDetails = (MyCustomerDetail) authentication.getPrincipal();
-        UUID userId = userDetails.getCustomer().getId();
+        UUID customerId = userDetails.getCustomer().getId();
 
         // Добавляем ID пользователя в RedirectAttributes
-        redirectAttributes.addAttribute("id", userId);
+        redirectAttributes.addAttribute("id", customerId);
         return "redirect:/customer/{id}";
     }
 }

@@ -42,9 +42,9 @@ public class CardController {
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @GetMapping("/new")
-    public String createCard(@RequestParam("userId") UUID userId, Model model){
+    public String createCard(@RequestParam("customerId") UUID customerId, Model model){
         model.addAttribute("card", new Card());
-        model.addAttribute("userId", userId);
+        model.addAttribute("customerId", customerId);
         model.addAttribute("cardTypes", CardType.values());
         model.addAttribute("paymentsSystem", Card.PaymentSystem.values());
         return "cards/new";
@@ -53,15 +53,15 @@ public class CardController {
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/addCard")
     public String addACard(@ModelAttribute("card") @Valid Card card,
-                           @RequestParam("userId") UUID userId,
+                           @RequestParam("customerId") UUID customerId,
                            BindingResult bindingResult, Model model){
         if (bindingResult.hasErrors()){
             model.addAttribute("cardTypes", CardType.values());
             model.addAttribute("paymentsSystem", Card.PaymentSystem.values());
             return "cards/new";
         }
-        cardService.createCard(userId, card);
-        return "redirect:/customer/" + userId;
+        cardService.createCard(customerId, card);
+        return "redirect:/customer/" + customerId;
     }
 
     @PreAuthorize("hasAuthority('ROLE_USER')")

@@ -67,6 +67,10 @@
         <td><p th:text ="${card.getPaymentSystem()}">text</p></td>
     </tr>
     <tr>
+        <td><p>Статус карты</p></td>
+        <td><p th:text ="${card.getStatus()}">text</p></td>
+    </tr>
+    <tr>
         <td><p>Владелец карты:</p></td>
         <td><p th:text ="${card.getCustomer().getFirstName() + ' ' + card.getCustomer().getLastName()}">text</p></td>
         </td>

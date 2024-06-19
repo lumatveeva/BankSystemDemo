@@ -6,8 +6,8 @@
 </head>
 <body>
 <p>Редактировать данные</p>
-<form th:method="POST" th:action="@{/customer/update(userId=${userId})}" th:object="${customer}">
-    <input type="hidden" name="userId" th:value="${userId}"/>
+<form th:method="POST" th:action="@{/customer/update(customerId=${customer.getId()})}" th:object="${customer}">
+    <input type="hidden" name="customerId" th:value="${customer.getId()}"/>
 
     <div>
         <label for="firstName">Ваше имя:</label>

@@ -92,15 +92,15 @@
     </tr>
 </table>
     <form th:action="@{/cards/new}" method="GET">
-        <input type="hidden" name="userId" th:value="${customer.getId()}"/>
+        <input type="hidden" name="customerId" th:value="${customer.getId()}"/>
         <button type="submit">Создать карту</button>
     </form>
     <form th:action="@{/accounts/new}" method="GET">
-        <input type="hidden" name="userId" th:value="${customer.getId()}"/>
+        <input type="hidden" name="customerId" th:value="${customer.getId()}"/>
         <button type="submit">Создать счет</button>
     </form>
 <form th:action="@{/customer/update}" method="GET">
-        <input type="hidden" name="userId" th:value="${customer.getId()}"/>
+        <input type="hidden" name="customerId" th:value="${customer.getId()}"/>
         <button type="submit">Редактировать данные</button>
     </form>
 

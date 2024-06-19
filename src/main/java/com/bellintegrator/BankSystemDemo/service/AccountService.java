@@ -1,7 +1,13 @@
 package com.bellintegrator.BankSystemDemo.service;
 
+import com.bellintegrator.BankSystemDemo.dto.AccountForm;
+import com.bellintegrator.BankSystemDemo.dto.CardForm;
+import com.bellintegrator.BankSystemDemo.dto.CustomerForm;
 import com.bellintegrator.BankSystemDemo.exceptions.AccountNotFoundException;
 import com.bellintegrator.BankSystemDemo.exceptions.CardNotFoundException;
+import com.bellintegrator.BankSystemDemo.mappers.AccountMapper;
+import com.bellintegrator.BankSystemDemo.mappers.CardMapper;
+import com.bellintegrator.BankSystemDemo.mappers.CustomerMapper;
 import com.bellintegrator.BankSystemDemo.model.Account;
 import com.bellintegrator.BankSystemDemo.model.AccountType;
 import com.bellintegrator.BankSystemDemo.model.Card;
@@ -13,6 +19,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,32 +30,47 @@ public class AccountService {
     private final CustomerService customerService;
     private final AccountRepository accountRepository;
     private final CardRepository cardRepository;
+    private final AccountMapper accountMapper;
+    private final CustomerMapper customerMapper;
+    private final CardMapper cardMapper;
 
 
-    public List<Account> findAll() {
-        return accountRepository.findAll();
+    public List<AccountForm> findAllAccountForm() {
+        List<Account> accountList = accountRepository.findAll();
+        List<AccountForm> accountFormList = new ArrayList<>();
+        for (Account account : accountList) {
+            accountFormList.add(accountMapper.toAccountForm(account));
+        }
+        return accountFormList;
     }
-    public Account findById(UUID id){
-         return accountRepository.findById(id).orElseThrow(() -> new AccountNotFoundException("Account not found"));
+    public AccountForm findAccountFormByAccountId(UUID id){
+        Account account = accountRepository.findById(id).orElseThrow(() -> new AccountNotFoundException("Account not found"));
+         return accountMapper.toAccountForm(account);
     }
-    public List<Account> allAccountsByCustomerId(UUID id){
-        return accountRepository.findByCustomerId(id);
+    public List<AccountForm> allAccountsFormByCustomerId(UUID id){
+        List<Account> accountList = accountRepository.findByCustomerId(id);
+        List<AccountForm> accountFormList = new ArrayList<>();
+        for (Account account : accountList) {
+            accountFormList.add(accountMapper.toAccountForm(account));
+        }
+        return accountFormList;
+
     }
 
     @Transactional
-    public Account createAccount(Account account, UUID customerId){
+    public void createAccount(AccountForm accountForm, UUID customerId){
 
-        Customer customer = customerService.findById(customerId);
-
-        account.setCustomer(customer);
-        account.setNumber(AccountNumberGenerator.generateAccountNumber());
-        account.setBalance(0);
-        accountRepository.save(account);
-        return account;
+        Customer customer = customerMapper.toCustomer(customerService.findCustomerFormByCustomerId(customerId));
+        Account newAccount = accountMapper.toAccount(accountForm);
+        newAccount.setCustomer(customer);
+        newAccount.setNumber(AccountNumberGenerator.generateAccountNumber());
+        newAccount.setBalance(0);
+        accountRepository.save(newAccount);
     }
 
     @Transactional
     public void updateBalance(Integer balance, UUID accountId){
+
         Account account = accountRepository.findById(accountId).orElseThrow(() -> new AccountNotFoundException("Account not found"));
         account.setBalance(balance + account.getBalance());
         accountRepository.save(account);
@@ -63,8 +85,9 @@ public class AccountService {
     public void addCardToAccount(UUID accountId, UUID cardId) {
         Account account = accountRepository.findById(accountId).orElseThrow(() -> new AccountNotFoundException("Account not found"));
         Card card = cardRepository.findById(cardId).orElseThrow(()->new CardNotFoundException("Card not found"));
+        CardForm cardForm = cardMapper.toCardForm(card);
 
-        addCard(accountId, card);
+        addCard(accountId, cardForm);
         card.setAccount(account);
 
         accountRepository.save(account);
@@ -72,8 +95,9 @@ public class AccountService {
 
     }
 
-    private void addCard(UUID accountId, Card card) {
+    private void addCard(UUID accountId, CardForm cardForm) {
         Account account = accountRepository.findById(accountId).orElseThrow(() -> new AccountNotFoundException("Account not found"));
+        Card card = cardMapper.toCard(cardForm);
         if (account.getAccountType() == AccountType.CREDIT && !account.getCards().isEmpty()) {
             throw new IllegalArgumentException("К кредитному счету может быть прикреплена только одна карта");
         }

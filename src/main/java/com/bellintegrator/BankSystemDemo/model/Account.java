@@ -15,7 +15,6 @@ public class Account {
     private UUID id;
     private String number;
     @Enumerated(EnumType.STRING)
-
     @Column(name = "account_type")
     private AccountType accountType;
     private Integer balance;

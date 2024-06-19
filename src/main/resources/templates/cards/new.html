@@ -50,7 +50,7 @@
 <body>
 <p>Создать новую карту</p>
 <form th:method = "POST" th:action = "@{/cards/addCard}" th:object ="${card}">
-<input type="hidden" name="userId" th:value="${userId}"/>
+<input type="hidden" name="customerId" th:value="${customerId}"/>
 
     <div>
         <label for="cardType">Выберите тип карты:</label>
