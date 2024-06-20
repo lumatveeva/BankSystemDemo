@@ -28,8 +28,8 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/users/**").hasAuthority("ROLE_ADMIN")
-                        .requestMatchers("/auth/login", "/auth/registration","/error", "/redirect").permitAll()
+                        .requestMatchers("/auth/login", "/auth/registration", "/error", "/redirect",
+                                "api-doc/**").permitAll()
                         .requestMatchers("/customer/**", "cards/**", "accounts/**").authenticated()
                 )
                 .formLogin(formLogin -> formLogin
@@ -39,7 +39,7 @@ public class SecurityConfig {
                         .failureUrl("/auth/login?error")
                         .usernameParameter("email")
                         .passwordParameter("password"))
-                .logout( logout -> logout
+                .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/auth/login"));
         return http.build();

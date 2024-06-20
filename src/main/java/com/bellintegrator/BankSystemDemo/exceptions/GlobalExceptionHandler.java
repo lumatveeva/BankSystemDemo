@@ -29,6 +29,7 @@ public class GlobalExceptionHandler {
         model.addAttribute("errorMessage", ex.getMessage());
         return "error";
     }
+
     @ExceptionHandler(CustomerNotFoundException.class)
     public String handleCustomerNotFoundException(CustomerNotFoundException ex, Model model) {
         model.addAttribute("errorMessage", ex.getMessage());

@@ -19,7 +19,7 @@ public class MyCustomerDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("Попытка найти пользователя: {}", username);
-        Customer currentCustomer =  customerRepository.findCustomerByEmail(username).orElseThrow( () -> new UsernameNotFoundException("User not found"));
+        Customer currentCustomer = customerRepository.findCustomerByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
         log.info("Пользователь найден: {}", currentCustomer.getEmail());
         return new MyCustomerDetail(currentCustomer);
     }

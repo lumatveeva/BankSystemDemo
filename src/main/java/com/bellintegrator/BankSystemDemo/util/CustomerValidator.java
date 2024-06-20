@@ -24,8 +24,8 @@ public class CustomerValidator implements Validator {
     public void validate(Object target, Errors errors) {
         Customer currentCustomer = (Customer) target;
         Optional<Customer> customerByEmail = customerRepository.findCustomerByEmail(currentCustomer.getEmail());
-        if(customerByEmail.isPresent()){
-            errors.rejectValue("email", "", "User already exist");
+        if (customerByEmail.isPresent()) {
+            errors.rejectValue("email", "", "Пользователь с данным email уже существует");
         }
     }
 }

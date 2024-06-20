@@ -2,6 +2,7 @@ package com.bellintegrator.BankSystemDemo.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -20,7 +21,7 @@ public class Account {
     private Integer balance;
 
     @ManyToOne
-    @JoinColumn(name ="customer_id",
+    @JoinColumn(name = "customer_id",
             referencedColumnName = "id")
     private Customer customer;
 

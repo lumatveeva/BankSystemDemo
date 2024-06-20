@@ -3,10 +3,6 @@ package com.bellintegrator.BankSystemDemo.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.math.BigInteger;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -33,7 +29,7 @@ public class Card {
     private Status status;
 
     @ManyToOne
-    @JoinColumn(name ="customer_id",
+    @JoinColumn(name = "customer_id",
             referencedColumnName = "id")
     private Customer customer;
 
@@ -43,10 +39,11 @@ public class Card {
             referencedColumnName = "id")
     private Account account;
 
-    public enum Status{
+    public enum Status {
         ACTIVE, LOCKED, CLOSE
     }
-    public enum PaymentSystem{
+
+    public enum PaymentSystem {
         VISA, MASTERCARD
     }
 

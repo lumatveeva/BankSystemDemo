@@ -7,5 +7,6 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface CardMapper {
     Card toCard(CardForm form);
+
     CardForm toCardForm(Card card);
 }

@@ -6,7 +6,6 @@ import com.bellintegrator.BankSystemDemo.model.CardType;
 import com.bellintegrator.BankSystemDemo.model.Customer;
 import lombok.Data;
 
-
 import java.math.BigInteger;
 import java.util.UUID;
 

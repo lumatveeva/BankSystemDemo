@@ -2,9 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Customer</title>
 </head>
 <body>
-
+<h3>Список пользователей</h3>
+<table>
+    <tr>
+        <td><p>Прикрепленные счета:</p></td>
+        <td>
+            <ul>
+                <li th:each="customer : ${customers}">
+                    <a th:href="@{http://localhost:8080/customer/{id} (id = ${customer.id})}"
+                       th:text="${customer.firstName + ' ' + customer.lastName}">text</a>
+                </li>
+            </ul>
+        </td>
+    </tr>
+</table>
 </body>
 </html>

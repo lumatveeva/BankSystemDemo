@@ -7,6 +7,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 @Service
 @AllArgsConstructor
 @Log4j2
@@ -17,7 +18,7 @@ public class RegistrationService {
 
 
     @Transactional
-    public void register(Customer customer){
+    public void register(Customer customer) {
         customer.setPassword(passwordEncoder.encode(customer.getPassword()));
         customer.setRole("ROLE_USER");
         userRepository.save(customer);

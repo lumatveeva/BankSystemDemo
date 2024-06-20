@@ -1,7 +1,9 @@
 package com.bellintegrator.BankSystemDemo.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 import java.util.List;
@@ -28,7 +30,7 @@ public class Customer {
     @NotNull(message = "Пожалуйста введите email")
     private String email;
 
-//    @Enumerated(EnumType.STRING)
+    //    @Enumerated(EnumType.STRING)
 //    private Role role;
     private String role;
 
@@ -44,8 +46,8 @@ public class Customer {
 
     @OneToMany(mappedBy = "customer")
     private List<Card> cards;
-    
-    public enum Role{
+
+    public enum Role {
         ROLE_USER, ROLE_ADMIN
     }
 

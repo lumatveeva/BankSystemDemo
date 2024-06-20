@@ -5,12 +5,16 @@ import com.bellintegrator.BankSystemDemo.dto.CustomerForm;
 import com.bellintegrator.BankSystemDemo.exceptions.CardNotFoundException;
 import com.bellintegrator.BankSystemDemo.mappers.AccountMapper;
 import com.bellintegrator.BankSystemDemo.mappers.CustomerMapper;
-import com.bellintegrator.BankSystemDemo.model.*;
+import com.bellintegrator.BankSystemDemo.model.Account;
+import com.bellintegrator.BankSystemDemo.model.AccountType;
+import com.bellintegrator.BankSystemDemo.model.Card;
+import com.bellintegrator.BankSystemDemo.model.Customer;
 import com.bellintegrator.BankSystemDemo.repository.CardRepository;
 import com.bellintegrator.BankSystemDemo.util.CardNumberGenerator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -24,18 +28,20 @@ public class CardService {
     private final AccountMapper accountMapper;
     private final CustomerMapper customerMapper;
 
-    public List<Card> findAll(){
+    public List<Card> findAll() {
         return cardRepository.findAll();
     }
+
     public List<Card> getCardsByCustomerId(UUID id) {
         return cardRepository.findByCustomerId(id);
     }
-    public Card findById(UUID id){
-        return cardRepository.findById(id).orElseThrow(()-> new CardNotFoundException("Card not found"));
+
+    public Card findById(UUID id) {
+        return cardRepository.findById(id).orElseThrow(() -> new CardNotFoundException("Card not found"));
     }
 
     @Transactional
-    public void createCard(UUID id, Card card){
+    public void createCard(UUID id, Card card) {
 
         AccountType accountType = selectAccountType(card);
 
@@ -71,7 +77,7 @@ public class CardService {
     public void withdrawMoney(Integer balance, UUID cardId) {
         Card card = cardRepository.findById(cardId).orElseThrow(() -> new CardNotFoundException("Account not found"));
         Integer currentBalance = card.getBalance();
-        if(balance > currentBalance){
+        if (balance > currentBalance) {
             throw new IllegalArgumentException("На карте недостаточно средств");
         }
         card.setBalance(currentBalance - balance);
@@ -91,15 +97,15 @@ public class CardService {
     }
 
     @Transactional
-    public void lockCard(UUID cardId){
+    public void lockCard(UUID cardId) {
         Card card = cardRepository.findById(cardId).orElseThrow(() -> new CardNotFoundException("Card not found"));
         card.setStatus(Card.Status.LOCKED);
         cardRepository.save(card);
     }
 
     @Transactional
-    public void save(UUID cardId){
-        Card card = cardRepository.findById(cardId).orElseThrow(()-> new CardNotFoundException("Card not found"));
+    public void save(UUID cardId) {
+        Card card = cardRepository.findById(cardId).orElseThrow(() -> new CardNotFoundException("Card not found"));
         cardRepository.save(card);
     }
 

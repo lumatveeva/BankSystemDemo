@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 public class MyCustomerDetail implements UserDetails {
 
     private Customer customer;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Arrays.stream(String.valueOf(customer.getRole()).split(", "))

@@ -9,6 +9,8 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface AccountMapper {
     Account toAccount(AccountForm form);
+
     AccountForm toAccountForm(Account account);
+
     List<AccountForm> toListAccountForm(List<Account> accountList);
 }
