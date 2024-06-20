@@ -36,24 +36,14 @@ public class AccountService {
 
 
     public List<AccountForm> findAllAccountForm() {
-        List<Account> accountList = accountRepository.findAll();
-        List<AccountForm> accountFormList = new ArrayList<>();
-        for (Account account : accountList) {
-            accountFormList.add(accountMapper.toAccountForm(account));
-        }
-        return accountFormList;
+        return accountMapper.toListAccountForm(accountRepository.findAll());
     }
     public AccountForm findAccountFormByAccountId(UUID id){
         Account account = accountRepository.findById(id).orElseThrow(() -> new AccountNotFoundException("Account not found"));
          return accountMapper.toAccountForm(account);
     }
     public List<AccountForm> allAccountsFormByCustomerId(UUID id){
-        List<Account> accountList = accountRepository.findByCustomerId(id);
-        List<AccountForm> accountFormList = new ArrayList<>();
-        for (Account account : accountList) {
-            accountFormList.add(accountMapper.toAccountForm(account));
-        }
-        return accountFormList;
+        return accountMapper.toListAccountForm(accountRepository.findByCustomerId(id));
 
     }
 

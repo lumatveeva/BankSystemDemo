@@ -85,6 +85,10 @@
     <input type="hidden" name="cardId" th:value="${card.getId()}"/>
     <button type="submit">Пополнить карту</button>
 </form>
+<form th:action="@{/cards/withdraw}" method="GET">
+    <input type="hidden" name="cardId" th:value="${card.getId()}"/>
+    <button type="submit">Снять деньги с карты</button>
+</form>
 <form th:action="@{/cards/lock}" method="POST">
     <input type="hidden" name="cardId" th:value="${card.getId()}"/>
     <button type="submit">Заблокировать карту</button>

@@ -24,16 +24,19 @@
         <input type="text" th:field ="*{email}" id="email">
         <div style="color:red" th:if="${#fields.hasErrors}" th:errors="*{email}">Name error</div>
     </div>
-    <div>
-        <label for="passport">Ваш паспорт:</label>
-        <input type="text" th:field ="*{passport}" id="passport">
-        <div style="color:red" th:if="${#fields.hasErrors}" th:errors="*{passport}">Name error</div>
-    </div>
 <!--    <div>-->
-<!--        <label for="password">Ваш пароль:</label>-->
-<!--        <input type="text" th:field ="*{password}" id="password">-->
-<!--        <div style="color:red" th:if="${#fields.hasErrors}" th:errors="*{password}">Name error</div>-->
+<!--        <label for="passport">Ваш паспорт:</label>-->
+<!--        <input type="text" th:field="*{passport}" id="passport">-->
+<!--        <div class="error-message" th:if="${#fields.hasErrors('passport')}" th:errors="*{passport}">Passport error</div>-->
 <!--    </div>-->
+    <label for="passport">Введите номер паспорта: </label>
+    <input type="text" th:field="*{passport}" id="passport"/>
+    <div style="color:red" th:if="${#fields.hasErrors('passport')}" th:errors="*{passport}">passport error</div>
+    <div>
+        <label for="password">Новый пароль:</label>
+        <input type="password" th:field="*{password}" id="password" autocomplete="off">
+        <div class="error-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>
+    </div>
 
     <input type="submit" value="Сохранить!">
 </form>

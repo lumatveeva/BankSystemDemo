@@ -67,6 +67,19 @@ public class CardService {
         cardRepository.save(card);
     }
 
+    @Transactional
+    public void withdrawMoney(Integer balance, UUID cardId) {
+        Card card = cardRepository.findById(cardId).orElseThrow(() -> new CardNotFoundException("Account not found"));
+        Integer currentBalance = card.getBalance();
+        if(balance > currentBalance){
+            throw new IllegalArgumentException("На карте недостаточно средств");
+        }
+        card.setBalance(currentBalance - balance);
+        Account account = card.getAccount();
+        accountService.updateBalance(balance, account.getId());
+        cardRepository.save(card);
+    }
+
 
     private static AccountType selectAccountType(Card card) {
         AccountType accountType = switch (card.getCardType()) {

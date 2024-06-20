@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-
-
 <head>
     <meta charset="UTF-8">
-    <title>Пополнение карты</title>
+    <title>Card</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -66,13 +64,12 @@
     </tr>
 </table>
 
-<form th:method="POST" th:action="@{/cards/updateBalance}" th:object="${card}">
+<form th:method="POST" th:action="@{/cards/withdraw}" th:object="${card}">
     <input type="hidden" name="cardId" th:value="${card.getId()}"/>
-    <label for="balance">Введите баланс для пополнения</label>
+    <label for="balance">Введите баланс для снятия</label>
     <input type="text" th:field="*{balance}" id="balance">
     <div style="color:red" th:if="${#fields.hasErrors('balance')}" th:errors="*{balance}">Ошибка баланса</div>
     <button type="submit">Сохранить!</button>
 </form>
 </body>
 </html>
-

@@ -2,7 +2,6 @@ package com.bellintegrator.BankSystemDemo.controller;
 
 import com.bellintegrator.BankSystemDemo.dto.CustomerForm;
 import com.bellintegrator.BankSystemDemo.service.CustomerService;
-import com.bellintegrator.BankSystemDemo.util.CustomerValidator;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,7 +18,6 @@ import java.util.UUID;
 public class CustomerController {
     private final CustomerService customerService;
 
-    private final CustomerValidator customerValidator;
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @GetMapping("/{id}")

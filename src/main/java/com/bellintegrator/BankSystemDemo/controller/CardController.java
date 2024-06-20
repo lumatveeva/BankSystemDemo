@@ -90,6 +90,30 @@ public class CardController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
+    @GetMapping("/withdraw")
+    public String getWithdrawPage(@RequestParam("cardId") UUID cardId,
+                                  Model model){
+        model.addAttribute("card", cardService.findById(cardId));
+        return "/cards/withdraw";
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PostMapping("/withdraw")
+    public String withdrawMoney(@RequestParam("cardId") UUID cardId,
+                                @RequestParam("balance") Integer balance,
+                                Model model){
+        if (balance == null || balance <= 0) {
+            model.addAttribute("card", cardService.findById(cardId));
+            model.addAttribute("balanceError", "Введите корректный баланс");
+            return "cards/putMoney";
+        };
+        cardService.withdrawMoney(balance,cardId);
+        Card updatedCard = cardService.findById(cardId);
+        UUID idCardCustomer = updatedCard.getCustomer().getId();
+        return "redirect:/customer/" + idCardCustomer;
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/lock")
     public String lockCard(@RequestParam("cardId") UUID cardId,
                            Model model){

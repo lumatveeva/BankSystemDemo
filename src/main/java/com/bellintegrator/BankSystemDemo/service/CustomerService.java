@@ -6,11 +6,9 @@ import com.bellintegrator.BankSystemDemo.mappers.CustomerMapper;
 import com.bellintegrator.BankSystemDemo.model.Customer;
 import com.bellintegrator.BankSystemDemo.repository.CustomerRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,17 +18,12 @@ import java.util.UUID;
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
-    private final PasswordEncoder passwordEncoder;
     private final CustomerMapper customerMapper;
+    private final RegistrationService registrationService;
 
 
     public List<CustomerForm> findAllCustomerForm() {
-        List<Customer> customerList = customerRepository.findAll();
-        List<CustomerForm> customerFormList = new ArrayList<>();
-        for (Customer customer : customerList) {
-            customerFormList.add(customerMapper.toCustomerForm(customer));
-        }
-        return customerFormList;
+        return customerMapper.toListCustomerForm(customerRepository.findAll());
     }
 
     public CustomerForm findCustomerFormByCustomerId(UUID id) {
@@ -47,6 +40,7 @@ public class CustomerService {
     public void updateCustomer(UUID id, CustomerForm updatedCustomerForm) {
         Customer updatedCustomer = customerMapper.toCustomer(updatedCustomerForm);
         updatedCustomer.setId(id);
+        registrationService.register(updatedCustomer);
         customerRepository.save(updatedCustomer);
     }
 }
