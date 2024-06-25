@@ -1,7 +1,8 @@
 package com.bellintegrator.BankSystemDemo.controller;
 
-import com.bellintegrator.BankSystemDemo.dto.CustomerForm;
+import com.bellintegrator.BankSystemDemo.dto.CustomerDTO;
 import com.bellintegrator.BankSystemDemo.service.CustomerService;
+import com.bellintegrator.BankSystemDemo.util.CustomerValidator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -22,6 +23,7 @@ import java.util.UUID;
 @RequestMapping("/customer")
 public class CustomerController {
     private final CustomerService customerService;
+    private final CustomerValidator customerValidator;
 
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
@@ -83,12 +85,13 @@ public class CustomerController {
     public String updateCustomer(@Parameter(description = "ID пользователя", required = true)
                                  @RequestParam("customerId") UUID customerId,
                                  @Parameter(description = "Форма с обновленной информацией о пользователе", required = true)
-                                 @ModelAttribute("customer") @Valid CustomerForm customerForm,
+                                 @ModelAttribute("customer") @Valid CustomerDTO customerDTO,
                                  BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "customer/updateCustomer";
         }
-        customerService.updateCustomer(customerId, customerForm);
+//        customerValidator.validate(customerDTO, bindingResult);
+        customerService.updateCustomer(customerId, customerDTO);
         return "redirect:/customer/" + customerId;
     }
 

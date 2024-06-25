@@ -15,6 +15,7 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String number;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "account_type")
     private AccountType accountType;

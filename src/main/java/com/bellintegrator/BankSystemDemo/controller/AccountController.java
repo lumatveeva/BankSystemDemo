@@ -1,7 +1,7 @@
 package com.bellintegrator.BankSystemDemo.controller;
 
 
-import com.bellintegrator.BankSystemDemo.dto.AccountForm;
+import com.bellintegrator.BankSystemDemo.dto.AccountDTO;
 import com.bellintegrator.BankSystemDemo.model.Account;
 import com.bellintegrator.BankSystemDemo.model.AccountType;
 import com.bellintegrator.BankSystemDemo.model.Customer;
@@ -102,7 +102,7 @@ public class AccountController {
     @ApiResponse(responseCode = "403", description = "Запрещено")
     @PostMapping("/addAccount")
     public String addAccount(@Parameter(description = "Данные нового счета", required = true)
-                             @ModelAttribute("account") @Valid AccountForm accountForm,
+                             @ModelAttribute("account") @Valid AccountDTO accountDTO,
                              @Parameter(description = "ID пользователя", required = true)
                              @RequestParam("customerId") UUID customerId,
                              BindingResult bindingResult,
@@ -111,7 +111,7 @@ public class AccountController {
             model.addAttribute("accountTypes", AccountType.values());
             return "accounts/new";
         }
-        accountService.createAccount(accountForm, customerId);
+        accountService.createAccount(accountDTO, customerId);
         return "redirect:/customer/" + customerId;
     }
 

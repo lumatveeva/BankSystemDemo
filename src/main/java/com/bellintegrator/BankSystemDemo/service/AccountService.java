@@ -1,7 +1,8 @@
+
 package com.bellintegrator.BankSystemDemo.service;
 
-import com.bellintegrator.BankSystemDemo.dto.AccountForm;
-import com.bellintegrator.BankSystemDemo.dto.CardForm;
+import com.bellintegrator.BankSystemDemo.dto.AccountDTO;
+import com.bellintegrator.BankSystemDemo.dto.CardDTO;
 import com.bellintegrator.BankSystemDemo.exceptions.AccountNotFoundException;
 import com.bellintegrator.BankSystemDemo.exceptions.CardNotFoundException;
 import com.bellintegrator.BankSystemDemo.mappers.AccountMapper;
@@ -33,29 +34,32 @@ public class AccountService {
     private final CardMapper cardMapper;
 
 
-    public List<AccountForm> findAllAccountForm() {
+    public List<AccountDTO> findAllAccountForm() {
         return accountMapper.toListAccountForm(accountRepository.findAll());
     }
 
-    public AccountForm findAccountFormByAccountId(UUID id) {
+    public AccountDTO findAccountFormByAccountId(UUID id) {
         Account account = accountRepository.findById(id).orElseThrow(() -> new AccountNotFoundException("Account not found"));
         return accountMapper.toAccountForm(account);
     }
+    public Account findAccountById(UUID accountId){
+        return accountRepository.findById(accountId).orElseThrow(() -> new AccountNotFoundException("Account not found"));
+    }
 
-    public List<AccountForm> allAccountsFormByCustomerId(UUID id) {
+    public List<AccountDTO> allAccountsFormByCustomerId(UUID id) {
         return accountMapper.toListAccountForm(accountRepository.findByCustomerId(id));
 
     }
 
     @Transactional
-    public void createAccount(AccountForm accountForm, UUID customerId) {
+    public Account createAccount(AccountDTO accountDTO, UUID customerId) {
 
         Customer customer = customerMapper.toCustomer(customerService.findCustomerFormByCustomerId(customerId));
-        Account newAccount = accountMapper.toAccount(accountForm);
+        Account newAccount = accountMapper.toAccount(accountDTO);
         newAccount.setCustomer(customer);
         newAccount.setNumber(AccountNumberGenerator.generateAccountNumber());
         newAccount.setBalance(0);
-        accountRepository.save(newAccount);
+        return accountRepository.save(newAccount);
     }
 
     @Transactional
@@ -75,9 +79,9 @@ public class AccountService {
     public void addCardToAccount(UUID accountId, UUID cardId) {
         Account account = accountRepository.findById(accountId).orElseThrow(() -> new AccountNotFoundException("Account not found"));
         Card card = cardRepository.findById(cardId).orElseThrow(() -> new CardNotFoundException("Card not found"));
-        CardForm cardForm = cardMapper.toCardForm(card);
+        CardDTO cardDTO = cardMapper.toCardForm(card);
 
-        addCard(accountId, cardForm);
+        addCard(account, cardDTO);
         card.setAccount(account);
 
         accountRepository.save(account);
@@ -85,15 +89,18 @@ public class AccountService {
 
     }
 
-    private void addCard(UUID accountId, CardForm cardForm) {
-        Account account = accountRepository.findById(accountId).orElseThrow(() -> new AccountNotFoundException("Account not found"));
-        Card card = cardMapper.toCard(cardForm);
+    private void addCard(Account account, CardDTO cardDTO) {
+        Card card = cardMapper.toCard(cardDTO);
         if (account.getAccountType() == AccountType.CREDIT && !account.getCards().isEmpty()) {
             throw new IllegalArgumentException("К кредитному счету может быть прикреплена только одна карта");
         }
         if (account.getAccountType() == AccountType.DEPOSIT) {
             throw new IllegalArgumentException("К депозитному счету нельзя прикрепить карту");
         }
+        if(account.getAccountType().getCorrespondingCardType() != cardDTO.getCardType()){
+            throw new IllegalArgumentException("Тип карты и банковского счета должны быть одинаковыми");
+        }
         account.getCards().add(card);
     }
+
 }

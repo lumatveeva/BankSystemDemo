@@ -5,7 +5,6 @@
     <include file="changelog\create-customer-table.xml" relativeToChangelogFile="true"/>
     <include file="changelog\create-account-table.xml" relativeToChangelogFile="true"/>
     <include file="changelog\create-card-table.xml" relativeToChangelogFile="true"/>
-<!--    <include file="changelog\create-account_card-table.xml" relativeToChangelogFile="true"/>-->
     <include file="changelog\create-foreignKey.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

@@ -48,7 +48,7 @@
     </style>
 </head>
 <body>
-<p>Создать новый счет</p>
+<h2>Создать новый счет</h2>
 <form th:method = "POST" th:action = "@{/accounts/addAccount}" th:object ="${account}">
     <input type="hidden" name="customerId" th:value="${customerId}"/>
         <div>
@@ -61,7 +61,7 @@
         </div>
 
 
-    <input type="submit" value="Сохранить!">
+    <button type="submit">Сохранить!</button>
 </form>
 </body>
 </html>

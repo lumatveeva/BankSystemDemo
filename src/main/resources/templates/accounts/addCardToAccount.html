@@ -69,14 +69,14 @@
                 <select name="cardId" id="cardId">
                     <option th:each="card : ${cardsList}" th:value="${card.getId()}" th:text="${card.getNumber() + ' ' + card.getCardType()}"></option>
                 </select>
+                <button type="submit">Сохранить!</button>
             </td>
-            <input type="submit" value="Сохранить!">
         </form>
     </tr>
 <tr th:if="${errorMessage}">
     <td colspan="3" style="color: red" th:text="${errorMessage}"></td>
-
 </tr>
 </table>
+
 </body>
 </html>

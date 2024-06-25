@@ -1,5 +1,7 @@
 package com.bellintegrator.BankSystemDemo.util;
 
+import com.bellintegrator.BankSystemDemo.dto.CustomerDTO;
+import com.bellintegrator.BankSystemDemo.mappers.CustomerMapper;
 import com.bellintegrator.BankSystemDemo.model.Customer;
 import com.bellintegrator.BankSystemDemo.repository.CustomerRepository;
 import lombok.AllArgsConstructor;
@@ -14,6 +16,7 @@ import java.util.Optional;
 public class CustomerValidator implements Validator {
 
     private final CustomerRepository customerRepository;
+    private final CustomerMapper customerMapper;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -22,7 +25,8 @@ public class CustomerValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        Customer currentCustomer = (Customer) target;
+        CustomerDTO currentCustomerDTO = (CustomerDTO) target;
+        Customer currentCustomer = customerMapper.toCustomer(currentCustomerDTO);
         Optional<Customer> customerByEmail = customerRepository.findCustomerByEmail(currentCustomer.getEmail());
         if (customerByEmail.isPresent()) {
             errors.rejectValue("email", "", "Пользователь с данным email уже существует");

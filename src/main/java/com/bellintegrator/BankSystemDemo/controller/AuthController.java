@@ -1,5 +1,6 @@
 package com.bellintegrator.BankSystemDemo.controller;
 
+import com.bellintegrator.BankSystemDemo.dto.CustomerDTO;
 import com.bellintegrator.BankSystemDemo.model.Customer;
 import com.bellintegrator.BankSystemDemo.repository.CustomerRepository;
 import com.bellintegrator.BankSystemDemo.service.RegistrationService;
@@ -59,14 +60,14 @@ public class AuthController {
     @ApiResponse(responseCode = "400", description = "Неверные данные")
     @PostMapping("/registration")
     public String performRegistration(@Parameter(description = "Данные нового пользователя", required = true)
-                                      @ModelAttribute("customer") @Valid Customer customer,
+                                      @ModelAttribute("customer") @Valid CustomerDTO customerDTO,
                                       BindingResult bindingResult) {
-        customerValidator.validate(customer, bindingResult);
+        customerValidator.validate(customerDTO, bindingResult);
 
         if (bindingResult.hasErrors()) {
             return "auth/registration";
         }
-        registrationService.register(customer);
+        registrationService.register(customerDTO);
         return "redirect:/auth/login";
     }
 

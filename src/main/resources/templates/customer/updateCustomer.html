@@ -3,42 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <title>Пользователь банка</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        p {
+            margin: 5px 0;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+
 </head>
 <body>
-<p>Редактировать данные</p>
-<form th:method="POST" th:action="@{/customer/update(customerId=${customer.getId()})}" th:object="${customer}">
-    <input type="hidden" name="customerId" th:value="${customer.getId()}"/>
+<h2>Редактировать данные</h2>
 
+<form th:method="POST" th:action="@{/customer/update}" th:object="${customer}">
+    <input type="hidden" name="customerId" th:value="${customer.getId()}"/>
     <div>
         <label for="firstName">Ваше имя:</label>
-        <input type="text" th:field ="*{firstName}" id="firstName">
+        <input type="text" th:field="*{firstName}" id="firstName">
         <div style="color:red" th:if="${#fields.hasErrors}" th:errors="*{firstName}">Name error</div>
     </div>
+    </br>
     <div>
         <label for="lastName">Ваше фамилия:</label>
-        <input type="text" th:field ="*{lastName}" id="lastName">
+        <input type="text" th:field="*{lastName}" id="lastName">
         <div style="color:red" th:if="${#fields.hasErrors}" th:errors="*{lastName}">Name error</div>
     </div>
+    </br>
     <div>
         <label for="email">Ваш email:</label>
-        <input type="text" th:field ="*{email}" id="email">
+        <input type="text" th:field="*{email}" id="email">
         <div style="color:red" th:if="${#fields.hasErrors}" th:errors="*{email}">Name error</div>
     </div>
-<!--    <div>-->
-<!--        <label for="passport">Ваш паспорт:</label>-->
-<!--        <input type="text" th:field="*{passport}" id="passport">-->
-<!--        <div class="error-message" th:if="${#fields.hasErrors('passport')}" th:errors="*{passport}">Passport error</div>-->
-<!--    </div>-->
-    <label for="passport">Введите номер паспорта: </label>
-    <input type="text" th:field="*{passport}" id="passport"/>
-    <div style="color:red" th:if="${#fields.hasErrors('passport')}" th:errors="*{passport}">passport error</div>
+    </br>
+    <div>
+        <label for="passport">Введите номер паспорта: </label>
+        <input type="text" th:field="*{passport}" id="passport"/>
+        <div style="color:red" th:if="${#fields.hasErrors('passport')}" th:errors="*{passport}">passport error</div>
+    </div>
+    </br>
     <div>
         <label for="password">Новый пароль:</label>
         <input type="password" th:field="*{password}" id="password" autocomplete="off">
         <div class="error-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>
     </div>
-
-    <input type="submit" value="Сохранить!">
+    </br>
+    <button type="submit">Сохранить!</button>
 </form>
 
 </body>

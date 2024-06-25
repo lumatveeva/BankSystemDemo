@@ -1,9 +1,11 @@
 package com.bellintegrator.BankSystemDemo.service;
 
-import com.bellintegrator.BankSystemDemo.dto.AccountForm;
-import com.bellintegrator.BankSystemDemo.dto.CustomerForm;
+import com.bellintegrator.BankSystemDemo.dto.AccountDTO;
+import com.bellintegrator.BankSystemDemo.dto.CardDTO;
+import com.bellintegrator.BankSystemDemo.dto.CustomerDTO;
 import com.bellintegrator.BankSystemDemo.exceptions.CardNotFoundException;
 import com.bellintegrator.BankSystemDemo.mappers.AccountMapper;
+import com.bellintegrator.BankSystemDemo.mappers.CardMapper;
 import com.bellintegrator.BankSystemDemo.mappers.CustomerMapper;
 import com.bellintegrator.BankSystemDemo.model.Account;
 import com.bellintegrator.BankSystemDemo.model.AccountType;
@@ -27,6 +29,7 @@ public class CardService {
     private final CustomerService customerService;
     private final AccountMapper accountMapper;
     private final CustomerMapper customerMapper;
+    private final CardMapper cardMapper;
 
     public List<Card> findAll() {
         return cardRepository.findAll();
@@ -45,21 +48,25 @@ public class CardService {
 
         AccountType accountType = selectAccountType(card);
 
+        // Создаём новый аккаунт и сохраняем его
         Account account = new Account();
         account.setAccountType(accountType);
         account.setCustomer(card.getCustomer());
-        AccountForm accountForm = accountMapper.toAccountForm(account);
-        accountService.createAccount(accountForm, id);
+        AccountDTO accountForm = accountMapper.toAccountForm(account);
+        Account savedAccount = accountService.createAccount(accountForm, id);
 
-        CustomerForm customerForm = customerService.findCustomerFormByCustomerId(id);
-        Customer customer = customerMapper.toCustomer(customerForm);
+        // Извлекаем сохранённый аккаунт из репозитория
+        CustomerDTO customerDTO = customerService.findCustomerFormByCustomerId(id);
+        Customer customer = customerMapper.toCustomer(customerDTO);
 
+        // Устанавливаем связь между клиентом, аккаунтом и картой
         card.setCustomer(customer);
-        card.setAccount(account);
+        card.setAccount(savedAccount); // Используем сохранённый аккаунт
         card.setNumber(CardNumberGenerator.generateCardNumber());
         card.setStatus(Card.Status.ACTIVE);
         card.setBalance(0);
 
+        // Сохраняем карту в репозиторий
         cardRepository.save(card);
     }
 

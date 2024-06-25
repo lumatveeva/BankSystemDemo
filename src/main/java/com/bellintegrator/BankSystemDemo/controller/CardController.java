@@ -1,5 +1,6 @@
 package com.bellintegrator.BankSystemDemo.controller;
 
+import com.bellintegrator.BankSystemDemo.dto.CardDTO;
 import com.bellintegrator.BankSystemDemo.model.Card;
 import com.bellintegrator.BankSystemDemo.model.CardType;
 import com.bellintegrator.BankSystemDemo.service.CardService;

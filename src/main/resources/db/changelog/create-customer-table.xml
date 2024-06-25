@@ -13,8 +13,7 @@
                 <constraints unique="true"/>
             </column>
             <column name="passport" type="varchar(100)">
-                <constraints unique="true"
-                             nullable="false"/>
+                <constraints nullable="false"/>
             </column>
             <column name="password" type="varchar"/>
             <column name="role" type="varchar"/>

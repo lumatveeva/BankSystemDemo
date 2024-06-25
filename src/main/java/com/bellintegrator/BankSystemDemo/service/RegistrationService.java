@@ -1,5 +1,7 @@
 package com.bellintegrator.BankSystemDemo.service;
 
+import com.bellintegrator.BankSystemDemo.dto.CustomerDTO;
+import com.bellintegrator.BankSystemDemo.mappers.CustomerMapper;
 import com.bellintegrator.BankSystemDemo.model.Customer;
 import com.bellintegrator.BankSystemDemo.repository.CustomerRepository;
 import lombok.AllArgsConstructor;
@@ -15,13 +17,15 @@ public class RegistrationService {
 
     private final CustomerRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final CustomerMapper customerMapper;
 
 
     @Transactional
-    public void register(Customer customer) {
+    public Customer register(CustomerDTO customerDTO) {
+        Customer customer = customerMapper.toCustomer(customerDTO);
         customer.setPassword(passwordEncoder.encode(customer.getPassword()));
         customer.setRole("ROLE_USER");
-        userRepository.save(customer);
         log.info("Пользователь  {} сохранен в БД", customer.getEmail());
+        return userRepository.save(customer);
     }
 }

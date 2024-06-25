@@ -48,7 +48,7 @@
     </style>
 </head>
 <body>
-<p>Создать новую карту</p>
+<h2>Создать новую карту</h2>
 <form th:method = "POST" th:action = "@{/cards/addCard}" th:object ="${card}">
 <input type="hidden" name="customerId" th:value="${customerId}"/>
 
@@ -69,8 +69,7 @@
         </select>
     </div>
 
-
-    <input type="submit" value="Сохранить!">
+    <button type="submit" >Сохранить</button>
 </form>
 </body>
 </html>

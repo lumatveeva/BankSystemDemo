@@ -29,9 +29,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/login", "/auth/registration", "/error", "/redirect",
-                                "api-doc/**").permitAll()
-                        .requestMatchers("/customer/**", "cards/**", "accounts/**").authenticated()
-                )
+                                 "/v3/api-docs/**", "/api-doc/**").permitAll()
+                        .requestMatchers("/customer/**", "cards/**", "accounts/**").authenticated())
                 .formLogin(formLogin -> formLogin
                         .loginPage("/auth/login")
                         .loginProcessingUrl("/process_login")
